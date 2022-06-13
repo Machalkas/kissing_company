@@ -8,6 +8,7 @@ annotation class ManyToOne
 
 @EnableAutoConfiguration
 @Entity
+@Table(name = "user")
 class User(
     @Id @GeneratedValue var id: Long? = null,
     var first_name: String,
@@ -15,6 +16,8 @@ class User(
     var nickname: String,
     @ManyToOne var role:  Roles
 )
+
+annotation class Table(val name: String)
 
 @EnableAutoConfiguration
 @Entity

@@ -5,6 +5,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource
 
 
 @RepositoryRestResource(collectionResourceRel = "people", path = "people")
-interface UserRepo: PagingAndSortingRepository<User, Long>{
+interface UserRepository: PagingAndSortingRepository<User, Long>{
     fun findByNickname(nickname: String): User?
 }
