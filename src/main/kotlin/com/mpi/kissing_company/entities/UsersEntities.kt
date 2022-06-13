@@ -1,33 +1,31 @@
-package com.mpi.kissing_company
+package com.mpi.kissing_company.entities
+import javax.persistence.*
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.data.annotation.Id
-annotation class Entity
-annotation class GeneratedValue
-annotation class ManyToOne
 
-@EnableAutoConfiguration
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 class User(
-    @Id @GeneratedValue var id: Long? = null,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
     var first_name: String,
     var second_name: String,
     var nickname: String,
     @ManyToOne var role:  Roles
+
+//    fun
 )
 
-annotation class Table(val name: String)
 
-@EnableAutoConfiguration
 @Entity
+@Table(name = "roles")
 class Roles(
     @Id @GeneratedValue var id: Long? = null,
     var name: String
 )
 
-@EnableAutoConfiguration
 @Entity
+@Table(name = "girls")
 class Girls(
     @Id @GeneratedValue var id: Long? = null,
     @ManyToOne var user: User,
