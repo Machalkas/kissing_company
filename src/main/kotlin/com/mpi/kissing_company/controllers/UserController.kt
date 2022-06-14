@@ -22,7 +22,7 @@ class UserController {
 
     @GetMapping("/role")
     fun getUserByRole(@RequestParam("role") role: String?): List<Users?>? {
-        return userService?.findByRoleName(role)
+        return userService?.findByRole(role)
     }
 
     @GetMapping("/id")
@@ -38,7 +38,7 @@ class UserController {
         } else ResponseEntity.status(HttpStatus.BAD_REQUEST).build<Users>()
     }
 
-    @GetMapping("/username")
+    @GetMapping("/user_login")
     fun getOne(@RequestParam("username") username: String?): Users? {
         return userService?.findOneUsername(username)
     }

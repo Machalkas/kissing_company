@@ -27,7 +27,7 @@ class Users(
         return password
     }
 
-    fun getRoleName(): String? {
+    fun getRole(): String? {
         return role?.name
     }
 

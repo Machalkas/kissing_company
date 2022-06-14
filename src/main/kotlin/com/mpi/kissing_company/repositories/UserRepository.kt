@@ -5,5 +5,5 @@ import com.mpi.kissing_company.entities.Users
 
 interface UserRepository : JpaRepository<Users?, Long?> {
     fun findByUsername(username: String?): Users?
-    fun findByRoleName(role: String?): List<Users?>?
+    fun findByRole(role: String?): List<Users?>?
 }

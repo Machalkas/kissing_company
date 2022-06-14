@@ -20,3 +20,5 @@ spring:
     change-log: classpath:/db/changelog/changelog.yml
     enabled: false
 
+jwt:
+  secret: machalka

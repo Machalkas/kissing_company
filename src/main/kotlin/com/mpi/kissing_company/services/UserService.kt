@@ -47,7 +47,7 @@ class UserService {
         return null
     }
 
-    fun findByRoleName(name: String?): List<Users?>? {
-        return userRepository?.findByRoleName(name)
+    fun findByRole(name: String?): List<Users?>? {
+        return userRepository?.findByRole(name)
     }
 }

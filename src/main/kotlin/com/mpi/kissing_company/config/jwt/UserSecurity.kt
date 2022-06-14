@@ -43,7 +43,7 @@ class UserSecurity : UserDetails {
             val userSecurity = UserSecurity()
             userSecurity.username = user.getUsername()
             userSecurity.password = user.getPassword()
-            userSecurity.grantedAuthorities = listOf(SimpleGrantedAuthority(user.getRoleName()))
+            userSecurity.grantedAuthorities = listOf(SimpleGrantedAuthority(user.getRole()))
             return userSecurity
         }
     }
