@@ -1,19 +1,61 @@
 package com.mpi.kissing_company.entities
+import com.fasterxml.jackson.annotation.JsonIgnore
+import lombok.AllArgsConstructor
+import lombok.Data
+import lombok.NoArgsConstructor
+import lombok.ToString
+import java.io.Serializable
 import java.sql.Timestamp
 import javax.persistence.*
 
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@ToString
+@Table(name = "users")
 class Users(
+    @field:Column(name = "username") private val username: String,
+    @field:Column(name = "password") @field:JsonIgnore private val password: String
+) : Serializable {
+    fun getUsername(): String? {
+        return username
+    }
+
+    fun getPassword(): String? {
+        return password
+    }
+
+    fun getRoleName(): String? {
+        return role?.name
+    }
+
+    fun setRole(userRole: Roles?) {
+        role = userRole
+    }
+
     @Id
-    @Column(nullable = false)
-    var username: String,
-    var first_name: String,
-    var second_name: String,
-    @Column(nullable = false)
-    var password: String,
-    @ManyToOne(optional = false) var role:  Roles
-)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private val id: Long? = null
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role", nullable = false)
+    private var role: Roles? = null
+}
+
+
+//@Entity
+//class Users(
+//    @Id
+//    @Column(nullable = false)
+//    var username: String,
+//    var first_name: String,
+//    var second_name: String,
+//    @Column(nullable = false)
+//    var password: String,
+//    @ManyToOne(optional = false) var role:  Roles
+//)
 
 
 @Entity
