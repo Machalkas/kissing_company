@@ -1,4 +1,4 @@
-package com.mpi.kissing_company.config.jwt
+package com.mpi.kissing_company.config
 
 import com.mpi.kissing_company.entities.Users
 import org.springframework.security.core.GrantedAuthority
