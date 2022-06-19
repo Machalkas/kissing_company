@@ -5,13 +5,7 @@ import javax.persistence.*
 
 
 
-@Entity
-class Roles(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
-    @Column(nullable = false)
-    var name: String
-)
+
 
 @Entity
 internal class Girls {

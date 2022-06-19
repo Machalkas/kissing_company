@@ -11,13 +11,13 @@ internal class User {
     var username: String? = null
     var first_name: String? = null
     var second_name: String? = null
-    @Column(nullable = false)
+//    @Column(nullable = false)
     var password: String? = null
-    @ManyToOne(optional = false)
-    var role: Roles? = null
+    @ManyToOne(optional = true)
+    var role: Role? = null
 
     constructor(){}
-    constructor(username: String?, first_name: String?, second_name: String?, role: Roles?, password: String?){
+    constructor(username: String?, first_name: String?, second_name: String?, role: Role?, password: String?){
         this.username = username
         this.first_name = first_name
         this.second_name = second_name
