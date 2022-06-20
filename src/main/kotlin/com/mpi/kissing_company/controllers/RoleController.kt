@@ -37,8 +37,10 @@ internal class RoleController(private val repository: RoleRepository) {
                 repository.save(role)} as (Role?) -> Role)
     }
 
-    @DeleteMapping("/roles/{id}")
+//    @DeleteMapping("/roles/{id}")
+    @RequestMapping(value= ["/empdelete/{id}"], method= [RequestMethod.DELETE])
     fun deleteRolename(@PathVariable id: Int){
         repository.deleteById(id)
     }
+
 }

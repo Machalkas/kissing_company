@@ -19,3 +19,13 @@ spring:
     change-log: classpath:/db/changelog/changelog.yml
     enabled: false
 
+security:
+  enable:
+      csrf: false
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        web: DEBUG
+
