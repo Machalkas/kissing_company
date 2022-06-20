@@ -7,7 +7,7 @@ import javax.persistence.*
 internal class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+    var id: Long? = null
     @Column(nullable = false)
     lateinit var name: String
 
