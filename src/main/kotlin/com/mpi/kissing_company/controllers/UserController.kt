@@ -32,9 +32,9 @@ internal class UserController(private val repository: UserRepository) {
     fun replaceUser(@RequestBody newUser: User, @PathVariable username: String): Optional<User>? {
         return repository.findById(username)
             .map<User>(Function { user: User ->
-                user.first_name = newUser.first_name
-                user.second_name = newUser.second_name
-                user.role = newUser.role
+                user.setFName(newUser.getFName())
+                user.setSName(newUser.getSName())
+                user.setRole(newUser.getRole())
                 repository.save(user)} as (User?) -> User)
     }
 
