@@ -7,7 +7,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "users")
-internal class User {
+class User {
     @Id
     @Column(nullable = false)
     private var username: String? = null
