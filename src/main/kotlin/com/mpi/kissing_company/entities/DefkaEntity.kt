@@ -8,7 +8,7 @@ import javax.persistence.*
 internal class Defka{
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+    var id: Long? = null
     @ManyToOne(optional = false)
     var user: User? = null
     var location: String? = null
@@ -18,4 +18,21 @@ internal class Defka{
     var nation: String? = null
     var telephone: String? = null
     var hair_color: String? = null
+
+    constructor(){}
+    constructor(id: Long?, user: User?, location: String?, age: Int?, height: Float?, weight: Float?, nation: String?, telephone: String?, hair_color: String?){
+        this.id = id
+        this.user = user
+        this.location = location
+        this.age = age
+        this.height = height
+        this.weight = weight
+        this.nation = nation
+        this.telephone = telephone
+        this.hair_color = hair_color
+    }
+
+    override fun toString(): String {
+        return "Defka{ id="+id+", user="+user+", location="+location+"}"
+    }
 }
