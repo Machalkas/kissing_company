@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "roles")
-internal class Role {
+class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null

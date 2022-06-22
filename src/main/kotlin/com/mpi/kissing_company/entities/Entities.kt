@@ -7,21 +7,7 @@ import javax.persistence.*
 
 
 
-@Entity
-internal class Girls {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
-    @ManyToOne(optional = false)
-    var user: User? = null
-    var location: String? = null
-    var age: Int? = null
-    var height: Float? = null
-    var weight: Float? = null
-    var nation: String? = null
-    var telephone: String? = null
-    var hair_color: String? = null
-}
+
 
 @Entity
 internal class GirlsPhotos(
@@ -29,7 +15,7 @@ internal class GirlsPhotos(
     val id: Long? = null,
     @Column(unique = true, nullable = false)
     val photo: String,
-    @ManyToOne(optional = false) val girl: Girls
+    @ManyToOne(optional = false) val girl: Girl
 
 )
 
@@ -38,7 +24,7 @@ internal class Feedbacks(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @ManyToOne(optional = false) val user: User,
-    @ManyToOne(optional = false) val girl: Girls,
+    @ManyToOne(optional = false) val girl: Girl,
     @Column(columnDefinition = "numeric")
     var stars: Double,
     var comment: String
@@ -49,7 +35,7 @@ internal class GirlsFeedbacks(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @ManyToOne(optional = false) val user: User,
-    @ManyToOne(optional = false) val girl: Girls,
+    @ManyToOne(optional = false) val girl: Girl,
     @Column(columnDefinition = "numeric")
     var stars: Double,
     var comment: String
@@ -59,7 +45,7 @@ internal class GirlsFeedbacks(
 internal class PriceList(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    @ManyToOne(optional = false) val girl: Girls,
+    @ManyToOne(optional = false) val girl: Girl,
     @Column(nullable = false)
     var service_name: String,
     @Column(columnDefinition = "numeric", nullable = false)
@@ -72,7 +58,7 @@ internal class PriceList(
 internal class ServiceHistory(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    @ManyToOne(optional = false) val girl: Girls,
+    @ManyToOne(optional = false) val girl: Girl,
     @ManyToOne(optional = false) val service: PriceList,
     @ManyToOne(optional = false) val client: User,
     @Column(columnDefinition = "timestamp", nullable = false)
