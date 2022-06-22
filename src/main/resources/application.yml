@@ -22,10 +22,13 @@ spring:
 security:
   enable:
       csrf: false
+  basic:
+    enable: false
+  ignored: /**
 
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        web: DEBUG
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
 

@@ -1,4 +1,4 @@
-package com.mpi.kissing_company.controllers.web
+package com.mpi.kissing_company.web
 
 import com.mpi.kissing_company.entities.User
 import com.mpi.kissing_company.repositories.UserRepository
