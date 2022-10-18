@@ -13,7 +13,7 @@ class User {
     private var username: String? = null
     private var first_name: String? = null
     private var second_name: String? = null
-    //    @Column(nullable = false)
+//        @Column(nullable = false)
     private var password: String? = null
     @ManyToOne(optional = true)
     private var role: Role? = null

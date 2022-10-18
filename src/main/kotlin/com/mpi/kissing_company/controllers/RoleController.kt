@@ -23,23 +23,24 @@ internal class RoleController(private val repository: RoleRepository) {
     }
 
     @GetMapping("/roles/{id}")
-    fun one(@PathVariable id: Int): Role? {
+    fun one(@PathVariable id: Long): Role? {
         return repository.findById(id)
             .orElseThrow(Supplier<RuntimeException> { RoleNotFoundException(id) })
     }
 
-    @PutMapping("/roles/{id}")
-    fun replaceRole(@RequestBody newRole: Role, @PathVariable id: Int): Optional<Role>? {
+    @PostMapping("/roles/{id}")  // shuld be Put, but Put didnt work
+    fun replaceRole(@RequestBody newRole: Role, @PathVariable id: Long): Optional<Role>? {
+        println(id)
         return repository.findById(id)
             .map<Role>(Function { role: Role ->
-                role.id = newRole.id
+                role.id = id
                 role.name = newRole.name
                 repository.save(role)} as (Role?) -> Role)
     }
 
     //    @DeleteMapping("/roles/{id}")
     @RequestMapping(value= ["/empdelete/{id}"], method= [RequestMethod.DELETE])
-    fun deleteRolename(@PathVariable id: Int){
+    fun deleteRolename(@PathVariable id: Long){
         repository.deleteById(id)
     }
 

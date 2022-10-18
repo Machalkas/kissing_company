@@ -1,3 +1,3 @@
 package com.mpi.kissing_company.exceptions
 
-internal class RoleNotFoundException(id: Int) : RuntimeException("Could not find user $id")
+internal class RoleNotFoundException(id: Long) : RuntimeException("Could not find user $id")
