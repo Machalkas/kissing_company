@@ -1,8 +1,16 @@
 package com.mpi.kissing_company.controllers
 
+import UserDto
 import com.mpi.kissing_company.entities.User
+import com.mpi.kissing_company.exceptions.UserAlreadyExistException
 import com.mpi.kissing_company.exceptions.UserNotFoundException
 import com.mpi.kissing_company.repositories.UserRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import java.util.function.Function
