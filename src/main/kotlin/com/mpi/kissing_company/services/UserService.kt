@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 
+fun TestArt() : Int {
+    return 0
+}
+
 @Service
 @RequiredArgsConstructor
 class UserService {
