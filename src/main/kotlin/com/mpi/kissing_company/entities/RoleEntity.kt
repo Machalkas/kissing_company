@@ -19,6 +19,10 @@ class Role {
     override fun toString(): String {
         return "User{ id="+id+", name="+name+"}"
     }
+
+    fun get(): Role{
+        return this
+    }
     //    override fun equals(other: Any?): Boolean {
 //        if (this === other) return true
 //        if (other !is User) return false

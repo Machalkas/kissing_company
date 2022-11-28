@@ -1,3 +1,4 @@
+package com.mpi.kissing_company.validators
 import org.aspectj.weaver.AnnotationTargetKind.ANNOTATION_TYPE
 import org.aspectj.weaver.AnnotationTargetKind.TYPE
 import java.lang.annotation.Documented
@@ -5,6 +6,7 @@ import javax.validation.Constraint
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 import kotlin.reflect.KClass
+import com.mpi.kissing_company.dto.UserDto
 
 
 

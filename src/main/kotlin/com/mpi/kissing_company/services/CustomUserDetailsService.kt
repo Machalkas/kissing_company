@@ -2,7 +2,6 @@ package com.src.main.kotlin.services
 import org.springframework.beans.factory.annotation.Autowired
 import com.mpi.kissing_company.entities.User as Users
 import com.mpi.kissing_company.repositories.UserRepository as UserRepository
-import com.mpi.kissing_company.exceptions.UserNotFoundException
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class PostgresUserDetailsService : UserDetailsService {
+class CustomUserDetailsService : UserDetailsService {
     @Autowired
     private val repository: UserRepository? = null
     @Throws(UsernameNotFoundException::class)

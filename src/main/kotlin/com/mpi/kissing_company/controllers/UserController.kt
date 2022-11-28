@@ -1,6 +1,6 @@
 package com.mpi.kissing_company.controllers
 
-import UserDto
+import com.mpi.kissing_company.dto.UserDto
 import com.mpi.kissing_company.entities.User
 import com.mpi.kissing_company.exceptions.UserAlreadyExistException
 import com.mpi.kissing_company.exceptions.UserNotFoundException
