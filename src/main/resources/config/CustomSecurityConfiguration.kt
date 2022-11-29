@@ -1,24 +1,19 @@
-package config
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.beans.factory.annotation.Autowired
+package com.example.config
 import com.src.main.kotlin.services.CustomUserDetailsService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.beans
-import org.springframework.http.HttpMethod
-import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import kotlin.Throws
-import java.lang.Exception
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.config.web.servlet.invoke
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.userdetails.User
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.web.servlet.function.ServerResponse
 import org.springframework.web.servlet.function.router
@@ -28,13 +23,23 @@ class SecurityApplication
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-class SecurityConfiguration : WebSecurityConfigurerAdapter() {
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
+class CustomSecurityConfiguration : WebSecurityConfigurerAdapter() {
     @Autowired
     private val userDetailsService: CustomUserDetailsService? = null
     @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
+    }
+
+    @Autowired
+    @Throws(Exception::class)
+    fun configureGlobal(auth: AuthenticationManagerBuilder) {
+        auth
+            .inMemoryAuthentication()
+            .withUser("user1")
+            .password(passwordEncoder().encode("user1Pass"))
+            .authorities("ROLE_USER")
     }
 
     @Throws(Exception::class)
@@ -43,11 +48,11 @@ class SecurityConfiguration : WebSecurityConfigurerAdapter() {
             .anonymous().and()
             .authorizeRequests().anyRequest().authenticated().and()
             .authorizeRequests()
-                .antMatchers("/ping**")
+                .antMatchers("/api/auth**")
                 .permitAll()
                 .and()
             .formLogin()
-                .loginPage("/login")
+                .loginPage("/api/auth/signin")
                 .permitAll()
                 .and()
             .logout()
