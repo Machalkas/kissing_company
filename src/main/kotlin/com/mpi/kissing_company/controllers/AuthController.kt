@@ -33,6 +33,7 @@ class AuthController {
 
     @Autowired
     private val passwordEncoder: PasswordEncoder? = null
+
     @PostMapping("/signin")
     fun authenticateUser(@RequestBody loginDto: LoginDto): ResponseEntity<String> {
         val authentication = authenticationManager!!.authenticate(
