@@ -1,5 +1,5 @@
 package com.example.config
-import com.src.main.kotlin.services.CustomUserDetailsService
+import com.mpi.kissing_company.services.CustomUserDetailsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

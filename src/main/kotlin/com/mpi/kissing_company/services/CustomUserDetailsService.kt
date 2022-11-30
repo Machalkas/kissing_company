@@ -1,4 +1,4 @@
-package com.src.main.kotlin.services
+package com.mpi.kissing_company.services
 import org.springframework.beans.factory.annotation.Autowired
 import com.mpi.kissing_company.entities.User as Users
 import com.mpi.kissing_company.repositories.UserRepository as UserRepository
@@ -18,7 +18,7 @@ class CustomUserDetailsService : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
         val user: Users = repository?.findByUsername(username) ?: throw UsernameNotFoundException("User not found")
         val authorities: List<SimpleGrantedAuthority> =
-            Arrays.asList<SimpleGrantedAuthority>(SimpleGrantedAuthority("user"))
+            listOf(SimpleGrantedAuthority("user"))
         print(user)
         return User(user.getUsername(), user.getPassword(), authorities)
     }
