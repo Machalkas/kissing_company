@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 @RestController
 @RequestMapping("/api/auth")
@@ -32,9 +32,9 @@ class AuthController {
     private val roleRepository: RoleRepository? = null
 
     @Autowired
-    private val passwordEncoder: PasswordEncoder? = null
+    private val bCryptPasswordEncoder: BCryptPasswordEncoder? = null
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     fun authenticateUser(@RequestBody loginDto: LoginDto): ResponseEntity<String> {
         val authentication = authenticationManager!!.authenticate(
             UsernamePasswordAuthenticationToken(
@@ -42,10 +42,10 @@ class AuthController {
             )
         )
         SecurityContextHolder.getContext().authentication = authentication
-        return ResponseEntity("User signed-in successfully!.", HttpStatus.OK)
+        return ResponseEntity("User signed-in successfully!", HttpStatus.OK)
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/registration")
     fun registerUser(@RequestBody signUpDto: SignUpDto): ResponseEntity<*> {
 
         // add check for username exists in a DB
@@ -59,7 +59,7 @@ class AuthController {
         user.setFName(signUpDto.getFName())
         user.setSName(signUpDto.getSName())
         user.setUsername(signUpDto.getUsername())
-        user.setPassword(passwordEncoder!!.encode(signUpDto.getPassword()))
+        user.setPassword(bCryptPasswordEncoder?.encode(signUpDto.getPassword()))
         val roles: Role? = roleRepository?.findByName("ROLE_ADMIN")
         user.setRole(roles)
         userRepository?.save(user)

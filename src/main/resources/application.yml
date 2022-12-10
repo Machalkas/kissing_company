@@ -1,11 +1,11 @@
 server:
-  port: 1232
+  port: 3321
 
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/kissing_company
-    username: postgres
-    password: 2760591
+    username: admin
+    password: admin
     driver-class-name: org.postgresql.Driver
   jpa:
     database: postgresql
