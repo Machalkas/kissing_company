@@ -1,6 +1,5 @@
-#server.port=8081
 server:
-  port: 8081
+  port: 3321
 
 spring:
   datasource:
@@ -20,5 +19,12 @@ spring:
     change-log: classpath:/db/changelog/changelog.yml
     enabled: false
 
-jwt:
-  secret: machalka
+security:
+  config: com.mpi.kissing_company.security.CustomSecurityConfiguration
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+

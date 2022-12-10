@@ -1,45 +1,53 @@
 package com.mpi.kissing_company.controllers
 
-import com.mpi.kissing_company.entities.UserSave
-import com.mpi.kissing_company.entities.Users
-import com.mpi.kissing_company.services.UserService
-import lombok.RequiredArgsConstructor
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import com.mpi.kissing_company.dto.UserDto
+import com.mpi.kissing_company.entities.User
+import com.mpi.kissing_company.exceptions.UserAlreadyExistException
+import com.mpi.kissing_company.exceptions.UserNotFoundException
+import com.mpi.kissing_company.repositories.UserRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
+import java.util.*
+import java.util.function.Function
+import java.util.function.Supplier
 
 
+@RestController
+internal class UserController(private val repository: UserRepository) {
 
-@RestController // @Controller + @ResponseBody over each method
-@RequestMapping("/user")
-@RequiredArgsConstructor
-class UserController {
-    private val userService: UserService? = null
-
-    @get:GetMapping
-    val all: List<Users?>
-        get() = userService!!.findAllAndSort()
-
-    @GetMapping("/role")
-    fun getUserByRole(@RequestParam("role") role: String?): List<Users?>? {
-        return userService?.findByRole(role)
+    @GetMapping("/users")
+    fun all(): List<User?> {
+        return repository.findAll()
     }
 
-    @GetMapping("/id")
-    fun getUser(@RequestParam("id") id: String): Users? {
-        return userService?.findOneUser(id)
+    @PostMapping("/users")
+    fun newUser(@RequestBody newUser: User): User{
+        return repository.save(newUser)
     }
 
-    @PostMapping("/save")
-    fun saveUser(@RequestBody user: UserSave): ResponseEntity<Users> {
-        val user1: Users? = userService?.saveUser(user)
-        return if (user1 != null) {
-            ResponseEntity.status(HttpStatus.CREATED).body<Users>(user1)
-        } else ResponseEntity.status(HttpStatus.BAD_REQUEST).build<Users>()
+    @GetMapping("/users/{username}")
+    fun one(@PathVariable username: String): User? {
+        return repository.findById(username)
+            .orElseThrow(Supplier<RuntimeException> { UserNotFoundException(username) })
     }
 
-    @GetMapping("/user_login")
-    fun getOne(@RequestParam("username") username: String?): Users? {
-        return userService?.findOneUsername(username)
+    @PutMapping("/users/{username}")
+    fun replaceUser(@RequestBody newUser: User, @PathVariable username: String): Optional<User>? {
+        return repository.findById(username)
+            .map<User>(Function { user: User ->
+                user.setFName(newUser.getFName())
+                user.setSName(newUser.getSName())
+                user.setRole(newUser.getRole())
+                repository.save(user)} as (User?) -> User)
+    }
+
+    @DeleteMapping("/user/{username}")
+    fun deleteUsername(@PathVariable username: String){
+        repository.deleteById(username)
     }
 }

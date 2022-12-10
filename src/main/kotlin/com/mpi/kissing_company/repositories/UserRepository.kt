@@ -1,9 +1,9 @@
 package com.mpi.kissing_company.repositories
 
 import org.springframework.data.jpa.repository.JpaRepository
-import com.mpi.kissing_company.entities.Users
+import com.mpi.kissing_company.entities.User as Users
 
-interface UserRepository : JpaRepository<Users?, Long?> {
-    fun findByUsername(username: String?): Users?
-    fun findByRole(role: String?): List<Users?>?
+internal interface UserRepository : JpaRepository<Users?, String>{
+    fun findByUsername(username: String?): Users
+    fun existsByUsername(username: String?): Boolean?
 }
