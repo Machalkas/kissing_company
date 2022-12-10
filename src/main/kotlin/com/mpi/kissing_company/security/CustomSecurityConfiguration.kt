@@ -1,5 +1,6 @@
 package com.mpi.kissing_company.security
 
+import com.mpi.kissing_company.services.CustomUserDetailsService
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
@@ -19,27 +20,27 @@ import org.springframework.security.web.SecurityFilterChain
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
-    @Bean
-    fun userDetailsService(bCryptPasswordEncoder: PasswordEncoder): UserDetailsService? {
-        val manager = InMemoryUserDetailsManager()
-        if (bCryptPasswordEncoder != null) {
-            manager.createUser(
-                User.withUsername("user")
-                    .password(bCryptPasswordEncoder.encode("userPass"))
-                    .roles("USER")
-                    .build()
-            )
-        }
-        if (bCryptPasswordEncoder != null) {
-            manager.createUser(
-                User.withUsername("admin")
-                    .password(bCryptPasswordEncoder.encode("adminPass"))
-                    .roles("USER", "ADMIN")
-                    .build()
-            )
-        }
-        return manager
-    }
+//    @Bean
+//    fun userDetailsService(bCryptPasswordEncoder: PasswordEncoder): UserDetailsService? {
+//        val manager = InMemoryUserDetailsManager()
+//        if (bCryptPasswordEncoder != null) {
+//            manager.createUser(
+//                User.withUsername("user")
+//                    .password(bCryptPasswordEncoder.encode("userPass"))
+//                    .roles("USER")
+//                    .build()
+//            )
+//        }
+//        if (bCryptPasswordEncoder != null) {
+//            manager.createUser(
+//                User.withUsername("admin")
+//                    .password(bCryptPasswordEncoder.encode("adminPass"))
+//                    .roles("USER", "ADMIN")
+//                    .build()
+//            )
+//        }
+//        return manager
+//    }
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {
@@ -54,7 +55,7 @@ public class SecurityConfig {
         userDetailService: UserDetailsService?
     ): AuthenticationManager? {
         return http.getSharedObject(AuthenticationManagerBuilder::class.java)
-            .userDetailsService(userDetailsService(passwordEncoder ))
+            .userDetailsService(CustomUserDetailsService())
             .passwordEncoder(passwordEncoder)
             .and()
             .build()

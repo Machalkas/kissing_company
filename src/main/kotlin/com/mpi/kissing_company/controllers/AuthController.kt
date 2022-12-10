@@ -36,11 +36,13 @@ class AuthController {
 
     @PostMapping("/login")
     fun authenticateUser(@RequestBody loginDto: LoginDto): ResponseEntity<String> {
+        println("login!")
         val authentication = authenticationManager!!.authenticate(
             UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(), loginDto.getPassword()
             )
         )
+        println(authentication)
         SecurityContextHolder.getContext().authentication = authentication
         return ResponseEntity("User signed-in successfully!", HttpStatus.OK)
     }
