@@ -74,7 +74,7 @@ public class SecurityConfig {
             .hasAnyRole("ADMIN")
             .antMatchers("/user/**")
             .hasAnyRole("USER", "ADMIN")
-            .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+            .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
             .anyRequest()
             .authenticated()
             .and()

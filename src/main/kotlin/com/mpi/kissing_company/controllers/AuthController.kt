@@ -1,5 +1,6 @@
 package com.mpi.kissing_company.controllers
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.mpi.kissing_company.dto.LoginDto
 import com.mpi.kissing_company.dto.SignUpDto
 import com.mpi.kissing_company.entities.Role
@@ -12,15 +13,17 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+
+
+var mapper = ObjectMapper()
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 class AuthController {
     @Autowired
     private val authenticationManager: AuthenticationManager? = null
@@ -35,16 +38,18 @@ class AuthController {
     private val bCryptPasswordEncoder: BCryptPasswordEncoder? = null
 
     @PostMapping("/login")
-    fun authenticateUser(@RequestBody loginDto: LoginDto): ResponseEntity<String> {
-        println("login!")
+    fun authenticateUser(@RequestBody loginDto: LoginDto): User?{
         val authentication = authenticationManager!!.authenticate(
             UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(), loginDto.getPassword()
             )
         )
-        println(authentication)
         SecurityContextHolder.getContext().authentication = authentication
-        return ResponseEntity("User signed-in successfully!", HttpStatus.OK)
+        val user = userRepository?.findByUsername(loginDto.getUsername())
+        return user
+//        return ResponseEntity.ok()
+//            .header("Content-Type", "application/json")
+//            .body(user.toString())
     }
 
     @PostMapping("/registration")
