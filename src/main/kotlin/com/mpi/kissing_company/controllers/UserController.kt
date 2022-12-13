@@ -25,10 +25,10 @@ internal class UserController(private val repository: UserRepository) {
         return repository.findAll()
     }
 
-    @PostMapping("/users")
-    fun newUser(@RequestBody newUser: User): User{
-        return repository.save(newUser)
-    }
+//    @PostMapping("/users")
+//    fun newUser(@RequestBody newUser: User): User{
+//        return repository.save(newUser)
+//    }
 
     @GetMapping("/users/{username}")
     fun one(@PathVariable username: String): User? {
@@ -40,8 +40,8 @@ internal class UserController(private val repository: UserRepository) {
     fun replaceUser(@RequestBody newUser: User, @PathVariable username: String): Optional<User>? {
         return repository.findById(username)
             .map<User>(Function { user: User ->
-                user.setFName(newUser.getFName())
-                user.setSName(newUser.getSName())
+                user.setfirst_name(newUser.getfirst_name())
+                user.setsecond_name(newUser.getsecond_name())
                 user.setRole(newUser.getRole())
                 repository.save(user)} as (User?) -> User)
     }
