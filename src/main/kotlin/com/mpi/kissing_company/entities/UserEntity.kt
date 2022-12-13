@@ -1,6 +1,10 @@
 package com.mpi.kissing_company.entities
 
-//import com.sun.corba.se.spi.ior.ObjectId
+
+import com.sun.corba.se.spi.ior.ObjectId
+import org.hibernate.annotations.CreationTimestamp
+import java.sql.Timestamp
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 
@@ -17,14 +21,17 @@ class User {
     private var password: String? = null
     @ManyToOne(optional = true)
     private var role: Role? = null
+    @CreationTimestamp
+    var create_timestamp: LocalDateTime? = null
 
     constructor(){}
-    constructor(username: String?, first_name: String?, second_name: String?, role: Role?, password: String?){
+    constructor(username: String?, first_name: String?, second_name: String?, role: Role?, password: String?, create_timestamp: LocalDateTime?){
         this.username = username
         this.first_name = first_name
         this.second_name = second_name
         this.role = role
         this.password = password
+        this.create_timestamp = create_timestamp
     }
 
     override fun equals(other: Any?): Boolean {
@@ -49,14 +56,17 @@ class User {
         return this.password
     }
 
-    fun getFName(): String?{
+    fun getfirst_name(): String?{
         return this.first_name
     }
-    fun getSName(): String?{
+    fun getsecond_name(): String?{
         return this.second_name
     }
     fun getRole(): Role?{
         return this.role
+    }
+    fun getCreate_timestamp(): String?{
+        return this.create_timestamp.toString()
     }
 
     fun setUsername(username: String?){
@@ -67,11 +77,11 @@ class User {
         this.password = password
     }
 
-    fun setFName(first_name: String?){
+    fun setfirst_name(first_name: String?){
         this.first_name = first_name
     }
 
-    fun setSName(second_name: String?){
+    fun setsecond_name(second_name: String?){
         this.second_name = second_name
     }
 

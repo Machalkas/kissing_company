@@ -24,8 +24,17 @@ class LoginDto {
 class SignUpDto {
     private val first_name: String? = null
     private val second_name: String? = null
+    @NotNull
+    @NotEmpty
     private val username: String? = null
+    @NotNull
+    @NotEmpty
     private val password: String? = null
+    private var role: String? = null
+
+    init {
+        this.role = this.role?.uppercase()
+    }
 
     fun getPassword(): String? {
         return this.password
@@ -35,12 +44,16 @@ class SignUpDto {
         return  this.username
     }
 
-    fun getSName(): String? {
+    fun getSecond_name(): String? {
         return  this.second_name
     }
 
-    fun getFName(): String? {
+    fun getFirst_name(): String? {
         return  this.first_name
+    }
+
+    fun getRole(): String? {
+        return this.role
     }
 
 }

@@ -19,6 +19,7 @@ internal class RoleController(private val repository: RoleRepository) {
 
     @PostMapping("/roles")
     fun newRole(@RequestBody newRole: Role): Role{
+        newRole.name = newRole.name.uppercase()
         return repository.save(newRole)
     }
 
