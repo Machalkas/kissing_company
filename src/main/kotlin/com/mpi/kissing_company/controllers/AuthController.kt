@@ -63,11 +63,11 @@ class AuthController {
 
         // create user object
         val user = User()
-        user.setFName(signUpDto.getFName())
-        user.setSName(signUpDto.getSName())
+        user.setfirst_name(signUpDto.getFirst_name())
+        user.setsecond_name(signUpDto.getSecond_name())
         user.setUsername(signUpDto.getUsername())
         user.setPassword(bCryptPasswordEncoder?.encode(signUpDto.getPassword()))
-        val roles: Role? = roleRepository?.findByName("ROLE_ADMIN")
+        val roles: Role? = signUpDto.getRole()?.let { roleRepository?.findByName(it) }
         user.setRole(roles)
         userRepository?.save(user)
         return ResponseEntity("User registered successfully", HttpStatus.OK)

@@ -49,10 +49,10 @@ class User {
         return this.password
     }
 
-    fun getFName(): String?{
+    fun getfirst_name(): String?{
         return this.first_name
     }
-    fun getSName(): String?{
+    fun getsecond_name(): String?{
         return this.second_name
     }
     fun getRole(): Role?{
@@ -67,11 +67,11 @@ class User {
         this.password = password
     }
 
-    fun setFName(first_name: String?){
+    fun setfirst_name(first_name: String?){
         this.first_name = first_name
     }
 
-    fun setSName(second_name: String?){
+    fun setsecond_name(second_name: String?){
         this.second_name = second_name
     }
 
