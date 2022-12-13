@@ -1,5 +1,6 @@
 package com.mpi.kissing_company.entities
 
+
 import com.sun.corba.se.spi.ior.ObjectId
 import org.hibernate.annotations.CreationTimestamp
 import java.sql.Timestamp
