@@ -1,6 +1,9 @@
 package com.mpi.kissing_company.entities
 
 import com.sun.corba.se.spi.ior.ObjectId
+import org.hibernate.annotations.CreationTimestamp
+import java.sql.Timestamp
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 
@@ -17,14 +20,17 @@ class User {
     private var password: String? = null
     @ManyToOne(optional = true)
     private var role: Role? = null
+    @CreationTimestamp
+    var create_timestamp: LocalDateTime? = null
 
     constructor(){}
-    constructor(username: String?, first_name: String?, second_name: String?, role: Role?, password: String?){
+    constructor(username: String?, first_name: String?, second_name: String?, role: Role?, password: String?, create_timestamp: LocalDateTime?){
         this.username = username
         this.first_name = first_name
         this.second_name = second_name
         this.role = role
         this.password = password
+        this.create_timestamp = create_timestamp
     }
 
     override fun equals(other: Any?): Boolean {
@@ -57,6 +63,9 @@ class User {
     }
     fun getRole(): Role?{
         return this.role
+    }
+    fun getCreate_timestamp(): String?{
+        return this.create_timestamp.toString()
     }
 
     fun setUsername(username: String?){
