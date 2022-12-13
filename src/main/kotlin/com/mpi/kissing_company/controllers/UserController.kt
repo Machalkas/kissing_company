@@ -25,10 +25,10 @@ internal class UserController(private val repository: UserRepository) {
         return repository.findAll()
     }
 
-    @PostMapping("/users")
-    fun newUser(@RequestBody newUser: User): User{
-        return repository.save(newUser)
-    }
+//    @PostMapping("/users")
+//    fun newUser(@RequestBody newUser: User): User{
+//        return repository.save(newUser)
+//    }
 
     @GetMapping("/users/{username}")
     fun one(@PathVariable username: String): User? {

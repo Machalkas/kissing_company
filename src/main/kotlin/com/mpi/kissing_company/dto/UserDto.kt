@@ -24,7 +24,11 @@ class LoginDto {
 class SignUpDto {
     private val first_name: String? = null
     private val second_name: String? = null
+    @NotNull
+    @NotEmpty
     private val username: String? = null
+    @NotNull
+    @NotEmpty
     private val password: String? = null
 
     fun getPassword(): String? {
