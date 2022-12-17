@@ -5,6 +5,7 @@ import com.mpi.kissing_company.dto.LoginDto
 import com.mpi.kissing_company.dto.SignUpDto
 import com.mpi.kissing_company.entities.Role
 import com.mpi.kissing_company.entities.User
+import com.mpi.kissing_company.payment.PaymentSystem
 import com.mpi.kissing_company.repositories.RoleRepository
 import com.mpi.kissing_company.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -54,7 +55,8 @@ class AuthController {
 
     @PostMapping("/registration")
     fun registerUser(@RequestBody signUpDto: SignUpDto): ResponseEntity<*> {
-
+        val paymentSystem = PaymentSystem()
+        println(paymentSystem.paymentUrl)
         // add check for username exists in a DB
         if (userRepository?.existsByUsername(signUpDto.getUsername()) == true) {
             return ResponseEntity("Username is already taken!", HttpStatus.BAD_REQUEST)

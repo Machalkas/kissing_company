@@ -40,6 +40,7 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("com.qiwi:bill-payments-java-sdk:1.5.0")
 }
 
 tasks.withType<KotlinCompile> {
