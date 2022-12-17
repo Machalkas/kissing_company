@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 
 
 var mapper = ObjectMapper()
@@ -54,12 +55,13 @@ class AuthController {
     }
 
     @PostMapping("/registration")
-    fun registerUser(@RequestBody signUpDto: SignUpDto): ResponseEntity<*> {
+    fun registerUser(@RequestBody signUpDto: SignUpDto): User? {
         val paymentSystem = PaymentSystem()
         println(paymentSystem.paymentUrl)
         // add check for username exists in a DB
         if (userRepository?.existsByUsername(signUpDto.getUsername()) == true) {
-            return ResponseEntity("Username is already taken!", HttpStatus.BAD_REQUEST)
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is already taken!")
+//            return ResponseEntity("Username is already taken!", HttpStatus.BAD_REQUEST)
         }
 
 
@@ -72,6 +74,7 @@ class AuthController {
         val roles: Role? = signUpDto.getRole()?.let { roleRepository?.findByName(it) }
         user.setRole(roles)
         userRepository?.save(user)
-        return ResponseEntity("User registered successfully", HttpStatus.OK)
+        user.setPassword("")
+        return user
     }
 }
