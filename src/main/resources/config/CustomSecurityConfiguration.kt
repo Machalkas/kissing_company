@@ -7,12 +7,15 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import java.util.*
 
 
 @EnableWebSecurity
@@ -41,6 +44,18 @@ public class SecurityConfig {
         return manager
     }
 
+//    @Bean
+//    fun corsConfigurationSource(): CorsConfigurationSource? {
+//        val configuration = CorsConfiguration()
+//        configuration.allowedOrigins = listOf("*")
+//        configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+//        configuration.allowedHeaders = listOf("authorization", "content-type", "x-auth-token")
+//        configuration.exposedHeaders = listOf("x-auth-token")
+//        val source = UrlBasedCorsConfigurationSource()
+//        source.registerCorsConfiguration("/**", configuration)
+//        return source
+//    }
+
     @Bean
     @Throws(Exception::class)
     fun authManager(
@@ -62,8 +77,7 @@ public class SecurityConfig {
         http.csrf()
             .disable()
             .authorizeRequests()
-            .antMatchers(HttpMethod.DELETE)
-            .hasRole("ADMIN")
+//            .antMatchers(HttpMethod.DELETE).permitAll()
             .antMatchers("/admin/**")
             .hasAnyRole("ADMIN")
             .antMatchers("/user/**")

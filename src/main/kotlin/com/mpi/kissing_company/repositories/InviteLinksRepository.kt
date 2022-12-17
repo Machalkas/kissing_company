@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 internal interface InviteLinksRepository: JpaRepository<InviteLinks?, String> {
     fun findByinviteToken(token: String?): InviteLinks
     fun existsByInviteToken(token: String): Boolean
+    fun deleteByinviteToken(token: String?)
 }
