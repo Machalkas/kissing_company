@@ -1,9 +1,6 @@
 package com.mpi.kissing_company.entities
 
 
-import com.sun.corba.se.spi.ior.ObjectId
-import org.hibernate.annotations.CreationTimestamp
-import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
@@ -21,17 +18,27 @@ class User {
     private var password: String? = null
     @ManyToOne(optional = true)
     private var role: Role? = null
-    @CreationTimestamp
-    var create_timestamp: LocalDateTime? = null
+    var create_at: LocalDateTime? = null
+    var update_at: LocalDateTime? = null
+
+    @PrePersist
+    protected fun onCreate() {
+        create_at = LocalDateTime.now()
+        update_at = create_at
+    }
+
+    @PreUpdate
+    protected fun onUpdate() {
+        update_at = LocalDateTime.now()
+    }
 
     constructor(){}
-    constructor(username: String?, first_name: String?, second_name: String?, role: Role?, password: String?, create_timestamp: LocalDateTime?){
+    constructor(username: String?, first_name: String?, second_name: String?, role: Role?, password: String?){
         this.username = username
         this.first_name = first_name
         this.second_name = second_name
         this.role = role
         this.password = password
-        this.create_timestamp = create_timestamp
     }
 
     override fun equals(other: Any?): Boolean {
@@ -65,8 +72,13 @@ class User {
     fun getRole(): Role?{
         return this.role
     }
-    fun getCreate_timestamp(): String?{
-        return this.create_timestamp.toString()
+
+    fun getCreate_at(): String?{
+        return this.create_at.toString()
+    }
+
+    fun getUpdate_at(): String?{
+        return this.update_at.toString()
     }
 
     fun setUsername(username: String?){
