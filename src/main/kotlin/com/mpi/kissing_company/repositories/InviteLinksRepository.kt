@@ -7,3 +7,4 @@ internal interface InviteLinksRepository: JpaRepository<InviteLinks?, String> {
     fun findByinviteToken(token: String?): InviteLinks
     fun deleteByinviteToken(token: String?)
 }
+

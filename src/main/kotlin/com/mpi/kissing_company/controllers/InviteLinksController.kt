@@ -24,7 +24,7 @@ internal class InviteLinksController(private val repository: InviteLinksReposito
         return repository.findAll()
     }
 
-    @DeleteMapping("/invite_link/{inviteToken}")
+    @DeleteMapping("/invite_link/{inviteToken}")  // FIXME: Delete and Put not allowed
     fun delete(@PathVariable inviteToken: String){
         repository.deleteByinviteToken(inviteToken)
     }

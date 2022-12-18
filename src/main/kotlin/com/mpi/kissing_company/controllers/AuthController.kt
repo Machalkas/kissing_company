@@ -39,7 +39,7 @@ class AuthController {
     @Autowired
     private val bCryptPasswordEncoder: BCryptPasswordEncoder? = null
 
-    @PostMapping("/login")
+    @PostMapping("/login")  // TODO: add jwt support
     fun authenticateUser(@RequestBody loginDto: LoginDto): User?{
         val authentication = authenticationManager!!.authenticate(
             UsernamePasswordAuthenticationToken(

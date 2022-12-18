@@ -7,12 +7,14 @@ import com.mpi.kissing_company.repositories.GirlRepository
 import com.mpi.kissing_company.repositories.InviteLinksRepository
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.HttpStatus
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import java.time.LocalDateTime
 import java.util.*
 import java.util.function.Function
 import java.util.function.Supplier
+
 
 
 @RestController
@@ -30,9 +32,9 @@ internal class GirlController(private val repository: GirlRepository,
 //    }
 
     @GetMapping("/girls/{id}")
-    fun one(@PathVariable id: String): Girl? {
+    fun one(@PathVariable id: Long): Girl? {
         return repository.findById(id)
-            .orElseThrow(Supplier<RuntimeException> { GirlNotFoundException(id) })
+//            .orElseThrow(Supplier<RuntimeException> { GirlNotFoundException(id) })
     }
 
     @PostMapping("/girls/registration/{token}")
@@ -46,9 +48,9 @@ internal class GirlController(private val repository: GirlRepository,
         }
         val now = LocalDateTime.now()
         if (now.isAfter(invite_token.getexpirtyDt())){
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Invite link is expired")
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Invite link is expired")  // FIXME: don't always return message
         }
-        invite_repository.deleteByinviteToken(token)
+//        this.deleteEntity(token)  // FIXME: do not work due to "No EntityManager with actual transaction available for current thread - cannot reliably process 'remove' call"
         return repository.save(newGirl)
 
     }
@@ -73,4 +75,10 @@ internal class GirlController(private val repository: GirlRepository,
     fun deleteGirlname(@PathVariable id: String){
         repository.deleteById(id)
     }
+
+    @Transactional
+    fun deleteEntity(token: String?) {
+        invite_repository.deleteByinviteToken(token)
+    }
+
 }
