@@ -3,6 +3,7 @@ package com.mpi.kissing_company.controllers
 import com.mpi.kissing_company.entities.Role
 import com.mpi.kissing_company.exceptions.RoleNotFoundException
 import com.mpi.kissing_company.repositories.RoleRepository
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import java.util.function.Function
@@ -13,6 +14,7 @@ import java.util.function.Supplier
 internal class RoleController(private val repository: RoleRepository) {
 
     @GetMapping("/roles")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     fun all(): List<Role?> {
         return repository.findAll()
     }

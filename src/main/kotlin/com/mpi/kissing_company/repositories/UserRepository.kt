@@ -9,7 +9,7 @@ internal interface UserRepository : JpaRepository<Users?, String>{
     fun existsByUsername(username: String?): Boolean?
 }
 
-interface UserDetailProjection {
+interface UserDetailProjection {  // FIXME: return password hash
     val username: String
     val first_name: String
     val second_name: String
