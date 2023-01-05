@@ -4,12 +4,13 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "girls")
+@Table(name = "girls", uniqueConstraints=[UniqueConstraint(columnNames = ["user_username"])])
 class Girl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Long? = null
     @ManyToOne(optional = false)
+    @JoinColumn(name="user_username")
     private var user: User? = null
     private var location: String? = null
     private var age: Int? = null

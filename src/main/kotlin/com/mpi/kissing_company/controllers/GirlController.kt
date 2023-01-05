@@ -51,6 +51,7 @@ internal class GirlController(private val repository: GirlRepository,
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Invite link is expired")  // FIXME: don't always return message
         }
 //        this.deleteEntity(token)  // FIXME: do not work due to "No EntityManager with actual transaction available for current thread - cannot reliably process 'remove' call"
+
         return repository.save(newGirl)
 
     }

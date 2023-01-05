@@ -6,12 +6,18 @@ server:
   servlet:
     context-path: /api
 
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/kissing_company
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver
+    data: init.sql
+    initialization-mode: always
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
