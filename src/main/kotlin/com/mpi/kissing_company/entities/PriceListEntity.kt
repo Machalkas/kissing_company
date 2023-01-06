@@ -31,11 +31,33 @@ class PriceList {
         update_at = LocalDateTime.now()
     }
 
-    constructor(){}
+//    constructor(){}
     constructor(girl: Girl?, serviceName: String?, cost: Float?, isCostPerHour: Boolean?){
         this.girl = girl
         this.serviceName = serviceName
         this.cost = cost
         this.isCostPerHour = isCostPerHour
     }
+
+
+
+//    fun getId(): Long? {
+//        return this.id
+//    }
+//
+//    fun getGirl(): Girl? {
+//        return this.girl
+//    }
+//
+//    fun getServiceName(): String? {
+//        return this.serviceName
+//    }
+//
+//    fun getCost(): Float? {
+//        return this.cost
+//    }
+//
+//    fun getIsCostPerHour(): Boolean? {
+//        return this.isCostPerHour
+//    }
 }

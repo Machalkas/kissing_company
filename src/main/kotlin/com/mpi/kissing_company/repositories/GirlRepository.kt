@@ -8,4 +8,5 @@ import java.util.Optional
 internal interface GirlRepository : JpaRepository<Girl?, String>{
     fun findById(id: Long): Girl
     fun findByUser(user: User): Girl
+    fun existsById(id: Long): Boolean
 }

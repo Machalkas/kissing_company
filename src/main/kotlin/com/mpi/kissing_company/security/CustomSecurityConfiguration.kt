@@ -45,17 +45,17 @@ public class SecurityConfig {
 //        return manager
 //    }
 
-//    @Bean
-//    fun corsConfigurationSource(): CorsConfigurationSource? {
-//        val configuration = CorsConfiguration()
-//        configuration.allowedOrigins = listOf("*")
-//        configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-//        configuration.allowedHeaders = listOf("authorization", "content-type", "x-auth-token")
-//        configuration.exposedHeaders = listOf("x-auth-token")
-//        val source = UrlBasedCorsConfigurationSource()
-//        source.registerCorsConfiguration("/**", configuration)
-//        return source
-//    }
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource? {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = listOf("*")
+        configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+        configuration.allowedHeaders = listOf("authorization", "content-type", "x-auth-token")
+        configuration.exposedHeaders = listOf("x-auth-token")
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
+    }
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {
@@ -92,8 +92,7 @@ public class SecurityConfig {
         http.csrf()
             .disable()
             .authorizeRequests()
-            .antMatchers(HttpMethod.DELETE)
-            .hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE).authenticated()
             .antMatchers("/admin/**")
             .hasAnyRole("ADMIN")
             .antMatchers("/user/**")

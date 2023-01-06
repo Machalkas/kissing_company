@@ -19,6 +19,7 @@ class Girl {
     private var nation: String? = null
     private var telephone: String? = null
     private var hair_color: String? = null
+//    private var nickname: String? = null
 
     constructor(){}
     constructor(user: User?, location: String?, age: Int?, height: Float?, weight: Float?, nation: String?, telephone: String?, hair_color: String?){
@@ -74,6 +75,10 @@ class Girl {
 
     fun getUser(): User?{
         return this.user
+    }
+
+    fun getId(): Long?{
+        return this.id
     }
 
     fun setLocation(location: String?){

@@ -37,7 +37,7 @@ internal class UserController(private val repository: UserRepository) {
     }
 
     @PutMapping("/users/{username}")
-    fun replaceUser(@RequestBody newUser: User, @PathVariable username: String): Optional<User>? {
+    fun updateUser(@RequestBody newUser: User, @PathVariable username: String): Optional<User>? {
         return repository.findById(username)
             .map<User>(Function { user: User ->
                 user.setfirst_name(newUser.getfirst_name())
