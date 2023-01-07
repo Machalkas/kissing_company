@@ -2,6 +2,7 @@ package com.mpi.kissing_company.security
 
 import com.mpi.kissing_company.services.CustomUserDetailsService
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+@Configuration
 public class SecurityConfig {
 
 //    @Bean
@@ -66,7 +68,7 @@ public class SecurityConfig {
     fun corsConfigurer(): WebMvcConfigurer? {
         return object : WebMvcConfigurer {
             override fun addCorsMappings(registry: CorsRegistry) {
-                registry.addMapping("/api/**").allowedOrigins("http://localhost:8080")
+                registry.addMapping("/api/**").allowedOrigins("*")
             }
         }
     }
@@ -93,6 +95,7 @@ public class SecurityConfig {
             .disable()
             .authorizeRequests()
             .antMatchers(HttpMethod.DELETE).authenticated()
+            .antMatchers(HttpMethod.PUT).authenticated()
             .antMatchers("/admin/**")
             .hasAnyRole("ADMIN")
             .antMatchers("/user/**")
@@ -103,7 +106,6 @@ public class SecurityConfig {
             .and()
             .httpBasic()
             .and()
-            .csrf().disable()
             .cors()
 
         return http.build()

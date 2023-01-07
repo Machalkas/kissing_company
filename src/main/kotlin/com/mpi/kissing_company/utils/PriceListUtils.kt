@@ -34,7 +34,7 @@ class PriceListUtils{
         }
         val girl = dto.getGirlId()?.let { girlRepository?.findById(it.toLong()) }
         var entity = PriceList(
-            girl = girl,
+            girl = girl?.get(),
             serviceName = dto.getServiceName(),
             cost = dto.getCost(),
             isCostPerHour = dto.getIsCostPerHour()

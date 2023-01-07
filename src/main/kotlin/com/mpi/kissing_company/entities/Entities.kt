@@ -15,7 +15,7 @@ internal class GirlsPhotos(
     val id: Long? = null,
     @Column(unique = true, nullable = false)
     val photo: String,
-    @ManyToOne(optional = false) val girl: Girl
+    @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE)) val girl: Girl
 
 )
 
@@ -25,7 +25,8 @@ class Feedbacks(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @ManyToOne(optional = false) val user: User,
-    @ManyToOne(optional = false) val girl: Girl,
+    @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE))
+    val girl: Girl,
     @Column(columnDefinition = "numeric")
     var stars: Double,
     var comment: String
@@ -36,7 +37,7 @@ internal class GirlsFeedbacks(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @ManyToOne(optional = false) val user: User,
-    @ManyToOne(optional = false) val girl: Girl,
+    @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE)) val girl: Girl,
     @Column(columnDefinition = "numeric")
     var stars: Double,
     var comment: String

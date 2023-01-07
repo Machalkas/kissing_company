@@ -9,7 +9,7 @@ class PriceList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE))
     var girl: Girl? = null
     @Column(name="service_name", nullable = false)
     var serviceName: String? = null

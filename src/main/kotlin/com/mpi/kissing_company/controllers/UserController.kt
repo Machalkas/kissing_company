@@ -7,6 +7,7 @@ import com.mpi.kissing_company.exceptions.UserNotFoundException
 import com.mpi.kissing_company.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
+import org.springframework.security.core.Authentication
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -34,6 +35,11 @@ internal class UserController(private val repository: UserRepository) {
     fun one(@PathVariable username: String): User? {
         return repository.findById(username)
             .orElseThrow(Supplier<RuntimeException> { UserNotFoundException(username) })
+    }
+
+    @GetMapping("/users/me")
+    fun myself(auth: Authentication): User {
+        return repository.findByUsername(auth.name)
     }
 
     @PutMapping("/users/{username}")

@@ -2,7 +2,6 @@ package com.mpi.kissing_company.controllers
 
 import com.mpi.kissing_company.dto.PriceListDto
 import com.mpi.kissing_company.entities.Girl
-import com.mpi.kissing_company.entities.PriceList
 import com.mpi.kissing_company.repositories.PriceListRepository
 import com.mpi.kissing_company.utils.PriceListUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,9 +9,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
-import java.util.*
-import java.util.function.Function
-import kotlin.collections.ArrayList
 
 @RestController
 internal class PriceListController(private val repository: PriceListRepository) {
@@ -22,10 +18,10 @@ internal class PriceListController(private val repository: PriceListRepository) 
 
     @GetMapping("/price_list/{id}")
     fun one(@PathVariable id: Long?): PriceListDto {
-        val service = repository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found") }
+        val service =
+            repository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found") }
 
-        val service_dto = priceListUtils.mapToDto(service)
-        return service_dto
+        return priceListUtils.mapToDto(service)
     }
 
     @GetMapping("/price_list")
