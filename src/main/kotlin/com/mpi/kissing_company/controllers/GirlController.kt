@@ -1,7 +1,6 @@
 package com.mpi.kissing_company.controllers
 
 import com.mpi.kissing_company.dto.GirlDto
-import com.mpi.kissing_company.entities.Girl
 import com.mpi.kissing_company.entities.InviteLinks
 import com.mpi.kissing_company.repositories.GirlRepository
 import com.mpi.kissing_company.repositories.InviteLinksRepository
@@ -30,19 +29,18 @@ internal class GirlController(private val repository: GirlRepository,
     @GetMapping("/girls")
     fun all(): List<GirlDto> {
         val girl_entity = repository.findAll()
-        var girl_dto = girl_entity.map { girlUtils.mapToDto(it) }
-        return girl_dto
+        return girl_entity.map { girlUtils.mapToDto(it) }
     }
 
     @GetMapping("/girls/{id}")
     fun one(@PathVariable id: Long): GirlDto {
-        val user_entity = repository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
-        return girlUtils.mapToDto(user_entity)
+        val girl_entity = repository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
+        return girlUtils.mapToDto(girl_entity)
     }
 
     @GetMapping("/girls/me")
     fun getGirlOfMyself(auth: Authentication): GirlDto {
-        val user = user_repository.findByUsername(auth.name)
+        val user = user_repository.findByUsername(auth.name).get()
         val girl_entity = repository.findByUser(user).orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "Looks like u are not a girl. So sorry") }
         return girlUtils.mapToDto(girl_entity)
     }
@@ -51,7 +49,7 @@ internal class GirlController(private val repository: GirlRepository,
     @Transactional
     fun registrateGirl(auth: Authentication, @RequestBody newGirl: GirlDto, @PathVariable token: String): GirlDto {
 
-        val user = user_repository.findByUsername(auth.name)
+        val user = user_repository.findByUsername(auth.name).get()
 
         if (repository.existsByUser(user)){
             throw ResponseStatusException(HttpStatus.CONFLICT, "Current user already a girl")
@@ -113,6 +111,6 @@ internal class GirlController(private val repository: GirlRepository,
         }
         repository.deleteById(id)
     }
-    
+
 
 }

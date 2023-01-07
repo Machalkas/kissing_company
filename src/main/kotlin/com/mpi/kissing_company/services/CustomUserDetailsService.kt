@@ -16,10 +16,10 @@ class CustomUserDetailsService : UserDetailsService {
     private val repository: UserRepository? = null
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
-        val user: Users = repository?.findByUsername(username) ?: throw UsernameNotFoundException("User not found")
+        val user = repository?.findByUsername(username)?.orElseThrow { UsernameNotFoundException("User not found") }
         val authorities: List<SimpleGrantedAuthority> =
             listOf(SimpleGrantedAuthority("user"))
         print(user)
-        return User(user.getUsername(), user.getPassword(), authorities)
+        return User(user?.getUsername(), user?.getPassword(), authorities)
     }
 }

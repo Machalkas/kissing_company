@@ -38,7 +38,7 @@ class GirlUtils{
         }
         val user = userRepository?.findByUsername(dto.getUsername())
         var entity = Girl(
-            user = user,
+            user = user?.get(),
             location = dto.getLocation(),
             age = dto.getAge(),
             height = dto.getHeight(),

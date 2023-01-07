@@ -5,6 +5,7 @@ import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 import lombok.Data
+import java.time.LocalDateTime
 
 @Data
 class LoginDto {
@@ -93,5 +94,54 @@ class UserDto {
     }
 }
 
+
+class UserInfoDto {
+
+    private var firstName: String? = null
+    private var secondName: String? = null
+    private var username: String? = null
+    private var roleName: String? = null
+    private var create_at: LocalDateTime? = null
+    private var update_at: LocalDateTime? = null
+
+    constructor(username: String?, firstName: String?, secondName: String?, roleName: String?) {
+        this.firstName = firstName
+        this.secondName = secondName
+        this.roleName = roleName
+        this.username = username
+    }
+
+    fun getUsername(): String? {
+        return this.username
+    }
+
+    fun getFirstName(): String? {
+        return  this.firstName
+    }
+
+    fun getSecondName(): String? {
+        return this.secondName
+    }
+
+    fun getRoleName(): String? {
+        return this.roleName
+    }
+
+    fun setUsername(username: String?){
+        this.username = username
+    }
+
+    fun setFirstName(first_name: String?){
+        this.firstName = first_name
+    }
+
+    fun setSecondName(last_name: String?){
+        this.secondName = last_name
+    }
+
+    fun setRoleName(role_name: String?){
+        this.roleName = role_name
+    }
+}
 
 

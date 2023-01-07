@@ -3,11 +3,13 @@ package com.mpi.kissing_company.controllers
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mpi.kissing_company.dto.LoginDto
 import com.mpi.kissing_company.dto.SignUpDto
+import com.mpi.kissing_company.dto.UserInfoDto
 import com.mpi.kissing_company.entities.Role
 import com.mpi.kissing_company.entities.User
 import com.mpi.kissing_company.payment.PaymentSystem
 import com.mpi.kissing_company.repositories.RoleRepository
 import com.mpi.kissing_company.repositories.UserRepository
+import com.mpi.kissing_company.utils.UserUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -39,8 +41,12 @@ class AuthController {
     @Autowired
     private val bCryptPasswordEncoder: BCryptPasswordEncoder? = null
 
+    @Autowired
+    private val userUtils: UserUtils? = null
+
+
     @PostMapping("/login")  // TODO: add jwt support
-    fun authenticateUser(@RequestBody loginDto: LoginDto): User?{
+    fun authenticateUser(@RequestBody loginDto: LoginDto): UserInfoDto?{
         val authentication = authenticationManager!!.authenticate(
             UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(), loginDto.getPassword()
@@ -48,7 +54,7 @@ class AuthController {
         )
         SecurityContextHolder.getContext().authentication = authentication
         val user = userRepository?.findByUsername(loginDto.getUsername())
-        return user
+        return userUtils?.mapToDto(user?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") })
 //        return ResponseEntity.ok()
 //            .header("Content-Type", "application/json")
 //            .body(user.toString())
