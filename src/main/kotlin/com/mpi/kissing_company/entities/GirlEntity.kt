@@ -4,7 +4,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "girls", uniqueConstraints=[UniqueConstraint(columnNames = ["girl_user"])])
+@Table(name = "girls", uniqueConstraints=[UniqueConstraint(columnNames = ["user_fk"])])
 class Girl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

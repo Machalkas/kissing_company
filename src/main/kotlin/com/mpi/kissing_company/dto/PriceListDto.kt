@@ -11,12 +11,12 @@ class PriceListDto {
     private var serviceName: String? = null
     private var cost: Float? = null
     private var isCostPerMinute: Boolean? = false
-    private var estimatedDurationInMin: Int? = null
+    private var estimatedDurationInMin: Long? = null
     private var createAt: LocalDateTime? = null
     private var updateAt: LocalDateTime? = null
 
     constructor(id: Long?, girlId: Long?, serviceName: String?, cost: Float?, isCostPerHour: Boolean?,
-                create_at: LocalDateTime?, update_at: LocalDateTime?, estimatedDurationInMin: Int?){
+                create_at: LocalDateTime?, update_at: LocalDateTime?, estimatedDurationInMin: Long?){
         this.id = id
         this.girlId = girlId
         this.serviceName = serviceName
@@ -56,7 +56,7 @@ class PriceListDto {
         return this.updateAt
     }
 
-    fun getEstimatedDurationInMin(): Int? {
+    fun getEstimatedDurationInMin(): Long? {
         return this.estimatedDurationInMin
     }
 }

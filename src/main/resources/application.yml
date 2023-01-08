@@ -26,6 +26,8 @@ spring:
     properties:
       hibernate.format_sql: true
       hibernate.jdbc.lob.non_contextual_creation: true
+      hibernate:
+        default_schema: public
   liquibase:
     change-log: classpath:/db/changelog/changelog.yml
     enabled: false

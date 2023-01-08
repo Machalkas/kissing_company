@@ -1,6 +1,7 @@
 package com.mpi.kissing_company.security
 
 import com.mpi.kissing_company.services.CustomUserDetailsService
+import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -94,6 +95,7 @@ public class SecurityConfig {
         http.csrf()
             .disable()
             .authorizeRequests()
+            .antMatchers("/swagger-ui/**").permitAll()
             .antMatchers(HttpMethod.DELETE).authenticated()
             .antMatchers(HttpMethod.PUT).authenticated()
             .antMatchers("/admin/**")
@@ -110,5 +112,10 @@ public class SecurityConfig {
 
         return http.build()
     }
+
+}
+@Configuration
+@OpenAPIDefinition
+class OpenApiConfig {
 
 }

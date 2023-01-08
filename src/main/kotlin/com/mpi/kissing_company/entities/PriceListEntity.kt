@@ -18,7 +18,7 @@ class PriceList {
     @Column(name="is_cost_per_hour", nullable = false)
     var isCostPerMinute: Boolean? = false
     @Column(name = "estimated_duration_in_min", nullable = false)
-    var estimatedDurationInMin: Int? = null
+    var estimatedDurationInMin: Long? = null
     var create_at: LocalDateTime? = null
     var update_at: LocalDateTime? = null
 
@@ -34,7 +34,7 @@ class PriceList {
     }
 
 //    constructor(){}
-    constructor(girl: Girl?, serviceName: String?, cost: Float?, isCostPerMinute: Boolean?, estimatedDurationInMin: Int?){
+    constructor(girl: Girl?, serviceName: String?, cost: Float?, isCostPerMinute: Boolean?, estimatedDurationInMin: Long?){
         this.girl = girl
         this.serviceName = serviceName
         this.cost = cost
