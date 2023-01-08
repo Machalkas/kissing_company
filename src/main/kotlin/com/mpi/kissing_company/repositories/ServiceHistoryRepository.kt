@@ -17,4 +17,5 @@ internal interface ServiceHistoryRepository: JpaRepository<ServiceHistory?, Long
     fun findByGirlOrderByStartDtAsc(girl: Girl?): List<ServiceHistory?>
     fun findByClientOrderByStartDtAsc(client: User?): List<ServiceHistory?>
     fun existsByGirlAndStartDtBetween(girl: Girl?, from: LocalDateTime, to: LocalDateTime): Boolean
+    fun save(serviceHistory: ServiceHistory?): ServiceHistory
 }

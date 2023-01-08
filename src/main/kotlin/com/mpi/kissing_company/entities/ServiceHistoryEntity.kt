@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import javax.persistence.Entity
 import javax.persistence.*
 
-val statuses_list = listOf("CREATED", "APPROVED", "CANCEL_BY_CLIENT", "CANCEL_BY_GIRL", "STARTED", "ENDED")
+val statuses_list = listOf("CREATED", "APPROVED", "CANCEL_BY_CLIENT", "CANCEL_BY_GIRL", "CANCEL_BY_ADMIN", "STARTED", "ENDED")
 
 @Entity
 @Table(name = "service_history", uniqueConstraints=[UniqueConstraint(columnNames = ["girl_fk", "start_datetime"])])

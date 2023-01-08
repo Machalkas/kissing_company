@@ -85,6 +85,7 @@ internal class GirlController(private val repository: GirlRepository,
     }
 
     @PutMapping("/girls/{id}")
+    @Transactional
     fun updateGirl(@RequestBody newGirl: GirlDto, @PathVariable id: Long): GirlDto {
         if (repository.existsById(id) == false){
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found")
