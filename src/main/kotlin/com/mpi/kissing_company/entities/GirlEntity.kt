@@ -4,12 +4,13 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "girls")
+@Table(name = "girls", uniqueConstraints=[UniqueConstraint(columnNames = ["user_fk"])])
 class Girl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Long? = null
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE))
+    @JoinColumn(name="user_fk")
     private var user: User? = null
     private var location: String? = null
     private var age: Int? = null
@@ -18,9 +19,12 @@ class Girl {
     private var nation: String? = null
     private var telephone: String? = null
     private var hair_color: String? = null
+    @Column(unique = true)
+    private var nickname: String? = null
 
-    constructor(){}
-    constructor(user: User?, location: String?, age: Int?, height: Float?, weight: Float?, nation: String?, telephone: String?, hair_color: String?){
+//    constructor(){}
+    constructor(user: User?, location: String?, age: Int?, height: Float?,
+                weight: Float?, nation: String?, telephone: String?, hair_color: String?, nickname: String?){
         this.user = user
         this.location = location
         this.age = age
@@ -29,6 +33,7 @@ class Girl {
         this.nation = nation
         this.telephone = telephone
         this.hair_color = hair_color
+        this.nickname = nickname
     }
 
     override fun equals(other: Any?): Boolean {
@@ -75,6 +80,14 @@ class Girl {
         return this.user
     }
 
+    fun getId(): Long?{
+        return this.id
+    }
+
+    fun getNikname(): String? {
+        return this.nickname
+    }
+
     fun setLocation(location: String?){
         this.location = location
     }
@@ -102,5 +115,9 @@ class Girl {
 
     fun setUser(user: User?){
         this.user = user
+    }
+
+    fun setNikname(nikname: String?){
+        this.nickname = nickname
     }
 }

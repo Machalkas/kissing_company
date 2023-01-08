@@ -15,7 +15,7 @@ internal class GirlsPhotos(
     val id: Long? = null,
     @Column(unique = true, nullable = false)
     val photo: String,
-    @ManyToOne(optional = false) val girl: Girl
+    @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE)) val girl: Girl
 
 )
 
@@ -25,7 +25,8 @@ class Feedbacks(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @ManyToOne(optional = false) val user: User,
-    @ManyToOne(optional = false) val girl: Girl,
+    @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE))
+    val girl: Girl,
     @Column(columnDefinition = "numeric")
     var stars: Double,
     var comment: String
@@ -36,39 +37,28 @@ internal class GirlsFeedbacks(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     @ManyToOne(optional = false) val user: User,
-    @ManyToOne(optional = false) val girl: Girl,
+    @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE)) val girl: Girl,
     @Column(columnDefinition = "numeric")
     var stars: Double,
     var comment: String
 )
 
-@Entity
-internal class PriceList(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
-    @ManyToOne(optional = false) val girl: Girl,
-    @Column(nullable = false)
-    var service_name: String,
-    @Column(columnDefinition = "numeric", nullable = false)
-    var cost: Float,
-    @Column(nullable = false)
-    var is_cost_per_hour: Boolean
-)
 
-@Entity
-internal class ServiceHistory(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
-    @ManyToOne(optional = false) val girl: Girl,
-    @ManyToOne(optional = false) val service: PriceList,
-    @ManyToOne(optional = false) val client: User,
-    @Column(columnDefinition = "timestamp", nullable = false)
-    var start_timestamp: Timestamp,
-    @Column(columnDefinition = "timestamp")
-    var end_timestamp: Timestamp? = null,
-    @Column(columnDefinition = "numeric", nullable = false)
-    var total_cost: Float
-)
+
+//@Entity
+//internal class ServiceHistory(
+//    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    val id: Long? = null,
+//    @ManyToOne(optional = false) val girl: Girl,
+//    @ManyToOne(optional = false) val service: PriceList,
+//    @ManyToOne(optional = false) val client: User,
+//    @Column(columnDefinition = "timestamp", nullable = false)
+//    var start_timestamp: Timestamp,
+//    @Column(columnDefinition = "timestamp")
+//    var end_timestamp: Timestamp? = null,
+//    @Column(columnDefinition = "numeric", nullable = false)
+//    var total_cost: Float
+//)
 
 @Entity
 class FellholeInfo(
