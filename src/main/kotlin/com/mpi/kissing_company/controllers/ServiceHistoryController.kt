@@ -40,11 +40,32 @@ internal class ServiceHistoryController(private val repository: ServiceHistoryRe
         return serviceHistoryUtils.mapToDetailDto(service_history)
     }
 
-    @GetMapping("/service_history/get_first_by_girl_id/{girl_id}")
-    fun getFirstByGirl(@PathVariable girl_id: Long): ServiceHistoryDto{
+    @GetMapping("/service_history/get_nearest_by_girl_id/{girl_id}")
+    fun getFirstByGirl(@PathVariable girl_id: Long): ServiceHistoryDetailsDto{
         val girl = girl_repository.findById(girl_id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
         val service_history = repository.findFirstByGirlOrderByStartDtAsc(girl).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "ServiceHistory not found") }
-        return serviceHistoryUtils.mapToDto(service_history)
+        return serviceHistoryUtils.mapToDetailDto(service_history)
+    }
+
+    @GetMapping("/service_history/get_nearest_by_client_username/{user_username}")
+    fun getFirstByUser(@PathVariable user_username: String): ServiceHistoryDetailsDto{
+        val client = user_repository.findById(user_username).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") }
+        val service_history = repository.findFirstByClientOrderByStartDtAsc(client).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "ServiceHistory not found") }
+        return serviceHistoryUtils.mapToDetailDto(service_history)
+    }
+
+    @GetMapping("/service_history/get_all_for_client/{user_username}")
+    fun getAllByUser(@PathVariable user_username: String): List<ServiceHistoryDto>{
+        val client = user_repository.findById(user_username).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") }
+        val service_history = repository.findByClientOrderByStartDtAsc(client)
+        return service_history.map { serviceHistoryUtils.mapToDto(it) }
+    }
+
+    @GetMapping("/service_history/get_all_for_girl/{girl_id}")
+    fun getAllByGirl(@PathVariable girl_id: Long): List<ServiceHistoryDto>{
+        val girl = girl_repository.findById(girl_id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
+        val service_history = repository.findByGirlOrderByStartDtAsc(girl)
+        return service_history.map { serviceHistoryUtils.mapToDto(it) }
     }
 
     @PostMapping("/service_history")
@@ -76,5 +97,6 @@ internal class ServiceHistoryController(private val repository: ServiceHistoryRe
         val new_dto = serviceHistoryUtils.mapToDto(new_entity)
         return new_dto
     }
+
 
 }
