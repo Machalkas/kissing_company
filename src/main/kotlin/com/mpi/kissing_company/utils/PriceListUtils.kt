@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
-import java.util.*
 
 @Service
 class PriceListUtils{
@@ -21,14 +20,15 @@ class PriceListUtils{
             girlId = entity?.girl?.getId(),
             serviceName = entity?.serviceName,
             cost = entity?.cost,
-            isCostPerHour = entity?.isCostPerHour,
+            isCostPerHour = entity?.isCostPerMinute,
+            estimatedDurationInMin = entity?.estimatedDurationInMin,
             create_at = entity?.create_at,
             update_at = entity?.update_at
         )
         return dto
     }
 
-    fun mapToEntety(dto: PriceListDto): PriceList{
+    fun mapToEntity(dto: PriceListDto): PriceList{
         if (dto.getGirlId()?.let { girlRepository?.existsById(it) } == false){
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Girl not found")
         }
@@ -37,7 +37,8 @@ class PriceListUtils{
             girl = girl?.get(),
             serviceName = dto.getServiceName(),
             cost = dto.getCost(),
-            isCostPerHour = dto.getIsCostPerHour()
+            isCostPerMinute = dto.getIsCostPerMinute(),
+            estimatedDurationInMin = dto.getEstimatedDurationInMin()
         )
         return entity
     }

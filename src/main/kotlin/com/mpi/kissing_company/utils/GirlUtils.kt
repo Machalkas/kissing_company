@@ -32,7 +32,7 @@ class GirlUtils{
         return dto
     }
 
-    fun mapToEntety(dto: GirlDto): Girl{
+    fun mapToEntity(dto: GirlDto): Girl{
         if (dto.getUsername()?.let { userRepository?.existsByUsername(it) } == false){
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found")
         }

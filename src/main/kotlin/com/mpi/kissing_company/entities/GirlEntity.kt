@@ -4,13 +4,13 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "girls", uniqueConstraints=[UniqueConstraint(columnNames = ["user_username", "nickname"])])
+@Table(name = "girls", uniqueConstraints=[UniqueConstraint(columnNames = ["girl_user"])])
 class Girl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Long? = null
     @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE))
-    @JoinColumn(name="user_username")
+    @JoinColumn(name="user_fk")
     private var user: User? = null
     private var location: String? = null
     private var age: Int? = null
@@ -19,6 +19,7 @@ class Girl {
     private var nation: String? = null
     private var telephone: String? = null
     private var hair_color: String? = null
+    @Column(unique = true)
     private var nickname: String? = null
 
 //    constructor(){}

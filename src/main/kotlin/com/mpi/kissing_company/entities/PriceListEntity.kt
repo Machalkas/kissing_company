@@ -16,7 +16,9 @@ class PriceList {
     @Column(columnDefinition = "numeric", nullable = false)
     var cost: Float? = null
     @Column(name="is_cost_per_hour", nullable = false)
-    var isCostPerHour: Boolean? = false
+    var isCostPerMinute: Boolean? = false
+    @Column(name = "estimated_duration_in_min", nullable = false)
+    var estimatedDurationInMin: Int? = null
     var create_at: LocalDateTime? = null
     var update_at: LocalDateTime? = null
 
@@ -32,11 +34,12 @@ class PriceList {
     }
 
 //    constructor(){}
-    constructor(girl: Girl?, serviceName: String?, cost: Float?, isCostPerHour: Boolean?){
+    constructor(girl: Girl?, serviceName: String?, cost: Float?, isCostPerMinute: Boolean?, estimatedDurationInMin: Int?){
         this.girl = girl
         this.serviceName = serviceName
         this.cost = cost
-        this.isCostPerHour = isCostPerHour
+        this.isCostPerMinute = isCostPerMinute
+        this.estimatedDurationInMin = estimatedDurationInMin
     }
 
 

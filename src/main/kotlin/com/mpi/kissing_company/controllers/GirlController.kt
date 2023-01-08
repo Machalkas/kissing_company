@@ -78,7 +78,7 @@ internal class GirlController(private val repository: GirlRepository,
         user.setRole(role)
         user_repository.save(user)
 
-        var new_girl_id = repository.save(girlUtils.mapToEntety(newGirl)).getId()
+        var new_girl_id = repository.save(girlUtils.mapToEntity(newGirl)).getId()
 
         return girlUtils.mapToDto(new_girl_id?.let { repository.findById(it).get() })
 
@@ -90,7 +90,7 @@ internal class GirlController(private val repository: GirlRepository,
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found")
         }
         var current_girl = repository.findById(id).get()
-//        current_girl.setUser(girlUtils.mapToEntety(newGirl).getUser())
+//        current_girl.setUser(girlUtils.mapToEntity(newGirl).getUser())
         current_girl.setLocation(newGirl.getLocation())
         current_girl.setWeight(newGirl.getWeight())
         current_girl.setHeight(newGirl.getHeight())

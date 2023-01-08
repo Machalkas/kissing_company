@@ -34,7 +34,7 @@ internal class PriceListController(private val repository: PriceListRepository) 
 
     @PostMapping("/price_list")
     fun newService(@RequestBody price_list_dto: PriceListDto): PriceListDto{
-        val price_list_entity = priceListUtils.mapToEntety(price_list_dto)
+        val price_list_entity = priceListUtils.mapToEntity(price_list_dto)
         var saved = repository.save(price_list_entity)
         val id = saved.id
         val new_ent = repository.findById(id)
@@ -58,8 +58,9 @@ internal class PriceListController(private val repository: PriceListRepository) 
         var current_service = repository.findById(id).get()
         current_service.serviceName = newService.getServiceName()
         current_service.cost = newService.getCost()
-        current_service.isCostPerHour = newService.getIsCostPerHour()
-        current_service.girl = priceListUtils.mapToEntety(newService).girl
+        current_service.isCostPerMinute = newService.getIsCostPerMinute()
+        current_service.girl = priceListUtils.mapToEntity(newService).girl
+        current_service.estimatedDurationInMin = newService.getEstimatedDurationInMin()
         repository.save(current_service)
         return priceListUtils.mapToDto(current_service)
     }
