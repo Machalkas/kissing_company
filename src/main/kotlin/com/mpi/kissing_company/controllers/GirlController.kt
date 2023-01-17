@@ -8,6 +8,7 @@ import com.mpi.kissing_company.repositories.RoleRepository
 import com.mpi.kissing_company.repositories.UserRepository
 import com.mpi.kissing_company.utils.GirlUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import java.time.LocalDateTime
+
 
 
 @RestController
@@ -25,6 +27,7 @@ internal class GirlController(private val repository: GirlRepository,
 
     @Autowired
     private val girlUtils = GirlUtils()
+
 
     @GetMapping("/girls")
     fun all(): List<GirlDto> {

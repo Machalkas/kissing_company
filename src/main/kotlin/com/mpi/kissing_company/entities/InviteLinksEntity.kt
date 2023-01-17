@@ -12,7 +12,7 @@ class InviteLinks{
     private var inviteToken: String? = java.util.UUID.randomUUID().toString()
     @Column(name="expirty_dt")
     private var expiryDt: LocalDateTime? = null
-    @Column(name="")
+    @Column(name="create_dt")
     private var createDt: LocalDateTime? = null
 
     @PrePersist
