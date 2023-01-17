@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.server.ResponseStatusException
@@ -88,6 +89,15 @@ internal class GirlsPhotosController(private val repository: GirlPhotoRepository
             return girl_entity.map { girlPhotoUtils.mapToRetrieveDto(it) }
         }
         return emptyList()
+    }
+
+    @DeleteMapping("/girls_photos/{id}")
+    @Transactional
+    fun deletePhotoById(auth: Authentication, @PathVariable id: Long){
+        val photo = repository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Photo not found") }
+        repository.deleteById(id)
+        val file = File(photo?.getPhotoUri())
+        file.delete()
     }
 
 }

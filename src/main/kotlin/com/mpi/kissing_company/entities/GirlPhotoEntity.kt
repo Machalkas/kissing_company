@@ -13,7 +13,7 @@ class GirlPhoto {
     @Column(unique = true, nullable = false)
     private var photoUri: String? = null
 
-    @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE))
+    @ManyToOne(optional = false)
     private var girl: Girl? = null
     private var isProfilePhoto: Boolean? = false
 
