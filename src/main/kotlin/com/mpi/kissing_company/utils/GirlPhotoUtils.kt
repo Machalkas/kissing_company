@@ -1,6 +1,7 @@
 package com.mpi.kissing_company.utils
 
 import com.mpi.kissing_company.dto.GirlPhotoDto
+import com.mpi.kissing_company.dto.GirlPhotoRetrieveDto
 import com.mpi.kissing_company.entities.GirlPhoto
 import com.mpi.kissing_company.repositories.GirlRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +20,8 @@ class GirlPhotoUtils {
             id = entity?.getId(),
             photoUri = entity?.getPhotoUri(),
             girlId = entity?.getGirl()?.getId(),
-            isProfilePhoto = entity?.getIsProfilePhoto()
+            isProfilePhoto = entity?.getIsProfilePhoto(),
+            createDt = entity?.getCreateDt()
         )
         return dto
     }
@@ -32,5 +34,15 @@ class GirlPhotoUtils {
             isProfilePhoto = dto.getIsProfilePhoto()
         )
         return entity
+    }
+
+    fun mapToRetrieveDto(entity: GirlPhoto?): GirlPhotoRetrieveDto {
+        val dto = GirlPhotoRetrieveDto(
+            id = entity?.getId(),
+            girlId = entity?.getGirl()?.getId(),
+            isProfilePhoto = entity?.getIsProfilePhoto(),
+            createDt = entity?.getCreateDt()
+        )
+        return dto
     }
 }

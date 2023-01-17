@@ -10,11 +10,15 @@ class GirlPhotoDto {
     private var isProfilePhoto: Boolean? = false
     private var createDt: LocalDateTime? = null
 
-    constructor(id: Long?, photoUri: String?, girlId: Long?, isProfilePhoto: Boolean? = false) {
+    constructor(id: Long?, photoUri: String?, girlId: Long?, createDt: LocalDateTime?, isProfilePhoto: Boolean? = false) {
         this.photoUri = photoUri
         this.girlId = girlId
         this.isProfilePhoto = isProfilePhoto
         this.id = id
+        this.createDt = createDt
+    }
+    fun getId(): Long?{
+        return this.id
     }
 
     fun getPhotoUri(): String?{
@@ -33,16 +37,35 @@ class GirlPhotoDto {
         return this.createDt
     }
 
-    fun setPhotoUri(uri: String){
-        this.photoUri = uri
+}
+
+class GirlPhotoRetrieveDto {
+    private var id: Long? = null
+    private var girlId: Long? = null
+    private var isProfilePhoto: Boolean? = false
+    private var createDt: LocalDateTime? = null
+
+    constructor(id: Long?, girlId: Long?, createDt: LocalDateTime?, isProfilePhoto: Boolean? = false) {
+        this.girlId = girlId
+        this.isProfilePhoto = isProfilePhoto
+        this.id = id
+        this.createDt = createDt
     }
-//
-//    fun setGirlId(){
-//        return this.girlId
-//    }
-//
-//    fun setIsProfilePhoto(){
-//        return this.isProfilePhoto
-//    }
+    fun getId(): Long?{
+        return this.id
+    }
+
+    fun getGirlId(): Long?{
+        return this.girlId
+    }
+
+    fun getIsProfilePhoto(): Boolean?{
+        return this.isProfilePhoto
+    }
+
+    fun getCreateDt(): LocalDateTime?{
+        return this.createDt
+    }
+
 
 }
