@@ -14,13 +14,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.server.ResponseStatusException
-import java.io.File
-import java.nio.file.Files
 import java.time.LocalDateTime
-import java.util.UUID
-import kotlin.io.path.Path
+
 
 
 @RestController
@@ -31,8 +27,7 @@ internal class GirlController(private val repository: GirlRepository,
 
     @Autowired
     private val girlUtils = GirlUtils()
-    @Autowired
-    private val env: Environment? = null
+
 
     @GetMapping("/girls")
     fun all(): List<GirlDto> {
@@ -119,22 +114,6 @@ internal class GirlController(private val repository: GirlRepository,
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found")
         }
         repository.deleteById(id)
-    }
-
-    @PostMapping("/girls/upload_image/{girl_id}")
-    fun uploadImage(@PathVariable girl_id: Long, @RequestParam("image") image: MultipartFile){
-        val filename = image.originalFilename
-        val filename_dot_index = filename?.indexOf(".")
-        if (filename_dot_index == -1){
-            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Filename must have file extension")
-        }
-        val uuid = UUID.randomUUID().toString()
-        val new_filename = uuid+ filename_dot_index?.let { filename?.substring(it) }
-        var path = env?.getProperty("static_path.girls_images")
-        if (path == ""){
-            path = System.getProperty("user.dir")+"\\girls_images\\"
-        }
-        Files.write(Path(path+new_filename), image.bytes)
     }
 
 

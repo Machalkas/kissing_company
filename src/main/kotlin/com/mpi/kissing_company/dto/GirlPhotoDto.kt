@@ -33,9 +33,9 @@ class GirlPhotoDto {
         return this.createDt
     }
 
-//    fun setPhotoUri(uri: String){
-//        return this.photoUri
-//    }
+    fun setPhotoUri(uri: String){
+        this.photoUri = uri
+    }
 //
 //    fun setGirlId(){
 //        return this.girlId
