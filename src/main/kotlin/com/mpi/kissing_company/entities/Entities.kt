@@ -9,16 +9,6 @@ import javax.persistence.*
 
 // TODO: добавить связь между feedbacks и service_history
 
-@Entity
-internal class GirlsPhotos(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
-    @Column(unique = true, nullable = false)
-    val photo: String,
-    @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE)) val girl: Girl
-
-)
-
 //
 @Entity
 class Feedbacks(

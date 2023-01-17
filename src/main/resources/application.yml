@@ -41,3 +41,5 @@ logging:
       springframework:
         security: DEBUG
 
+static_path:
+  girls_images: null
