@@ -33,7 +33,6 @@ internal class RoleController(private val repository: RoleRepository) {
 
     @PostMapping("/roles/{id}")  // shuld be Put, but Put didnt work
     fun replaceRole(@RequestBody newRole: Role, @PathVariable id: Long): Optional<Role>? {
-        println(id)
         return repository.findById(id)
             .map<Role>(Function { role: Role ->
                 role.id = id

@@ -62,8 +62,6 @@ class AuthController {
 
     @PostMapping("/registration")
     fun registerUser(@RequestBody signUpDto: SignUpDto): User? {
-        val paymentSystem = PaymentSystem()
-        println(paymentSystem.paymentUrl)
         // add check for username exists in a DB
         if (userRepository?.existsByUsername(signUpDto.getUsername()) == true) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is already taken!")

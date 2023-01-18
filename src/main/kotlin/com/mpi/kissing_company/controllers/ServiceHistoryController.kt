@@ -143,23 +143,23 @@ internal class ServiceHistoryController(private val repository: ServiceHistoryRe
         repository.save(service_history)
     }
 
-    @PutMapping("/service_history/approve/{service_id}")
-    @Transactional
-    fun approveAppointment(auth: Authentication, @PathVariable service_id: Long) {
-//        val user = user_repository.findByUsername(auth.name).get()
-        val service_history = repository.findById(service_id)
-            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "ServiceHistory not found") }
-//        if (service_history?.getGirl()?.getUser()
-//                ?.getUsername() != user.getUsername() && user.getRole()?.name != "ADMIN"
-//        ) {
-//            throw ResponseStatusException(HttpStatus.FORBIDDEN, "Not enough rights")
+//    @PutMapping("/service_history/approve/{service_id}")
+//    @Transactional
+//    fun approveAppointment(auth: Authentication, @PathVariable service_id: Long) {
+////        val user = user_repository.findByUsername(auth.name).get()
+//        val service_history = repository.findById(service_id)
+//            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "ServiceHistory not found") }
+////        if (service_history?.getGirl()?.getUser()
+////                ?.getUsername() != user.getUsername() && user.getRole()?.name != "ADMIN"
+////        ) {
+////            throw ResponseStatusException(HttpStatus.FORBIDDEN, "Not enough rights")
+////        }
+//        if (service_history?.getStatus() != "CREATED") {
+//            throw ResponseStatusException(HttpStatus.CONFLICT, "U can approve appointment only if status == CREATED")
 //        }
-        if (service_history?.getStatus() != "CREATED") {
-            throw ResponseStatusException(HttpStatus.CONFLICT, "U can approve appointment only if status == CREATED")
-        }
-        service_history?.setStatus("APPROVED")
-        repository.save(service_history)
-    }
+//        service_history?.setStatus("APPROVED")
+//        repository.save(service_history)
+//    }
 
     @PutMapping("/service_history/start/{service_id}")
     @Transactional

@@ -1,5 +1,6 @@
 package com.mpi.kissing_company.security
 
+import com.mpi.kissing_company.payment.PaymentSystem
 import com.mpi.kissing_company.services.CustomUserDetailsService
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import org.springframework.context.annotation.Bean
@@ -47,6 +48,11 @@ public class SecurityConfig {
 //        }
 //        return manager
 //    }
+
+    @Bean
+    fun paymentSystem(): PaymentSystem? {
+        return PaymentSystem("public_key", "private_key")
+    }
 
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource? {
@@ -103,6 +109,7 @@ public class SecurityConfig {
             .antMatchers("/user/**")
             .hasAnyRole("USER", "ADMIN")
             .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
+//            .antMatchers(HttpMethod.POST, "/payment/status").permitAll()
             .anyRequest()
             .authenticated()
             .and()
