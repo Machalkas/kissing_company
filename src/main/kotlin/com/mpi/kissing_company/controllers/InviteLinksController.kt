@@ -23,7 +23,9 @@ internal class InviteLinksController(private val repository: InviteLinksReposito
     }
 
     @GetMapping("/invite_link")
+    @Transactional
     fun all(): List<InviteLinks?>{
+        repository.deleteByExpiryDtLessThan()
         return repository.findAll()
     }
 
