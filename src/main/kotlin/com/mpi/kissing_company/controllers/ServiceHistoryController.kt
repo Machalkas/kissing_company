@@ -2,6 +2,8 @@ package com.mpi.kissing_company.controllers
 
 import com.mpi.kissing_company.dto.ServiceHistoryDetailsDto
 import com.mpi.kissing_company.dto.ServiceHistoryDto
+import com.mpi.kissing_company.entities.CashbackEntity
+import com.mpi.kissing_company.repositories.*
 import com.mpi.kissing_company.repositories.GirlRepository
 import com.mpi.kissing_company.repositories.PriceListRepository
 import com.mpi.kissing_company.repositories.ServiceHistoryRepository
@@ -26,7 +28,8 @@ import java.time.temporal.ChronoUnit
 internal class ServiceHistoryController(private val repository: ServiceHistoryRepository,
                                         private val user_repository: UserRepository,
                                         private val price_list_repository: PriceListRepository,
-                                        private val girl_repository: GirlRepository,) {
+                                        private val girl_repository: GirlRepository,
+                                        private val cashback_repository: CashbackRepository) {
 
     @Autowired
     private val serviceHistoryUtils = ServiceHistoryUtils()
@@ -93,8 +96,16 @@ internal class ServiceHistoryController(private val repository: ServiceHistoryRe
         if (test){
             throw ResponseStatusException(HttpStatus.CONFLICT, "Already busy at this time")
         }
+        var cashback: CashbackEntity
+        try {
+            cashback = cashback_repository.findByUser(user).get()
+        } catch (ex: NoSuchElementException){
+            cashback = cashback_repository.save(CashbackEntity(user, 0.0F))
+        }
         if (service.isCostPerMinute == false){
             newSeviceHistory.setTotalCost(service.cost)
+            val cost = service.cost!!
+            cashback?.setSlutCoins(cashback.getSlutCoins()?.plus(cost*5/100))
         }
         newSeviceHistory.setUsername(user.getUsername())
         newSeviceHistory.setStatus("created")
