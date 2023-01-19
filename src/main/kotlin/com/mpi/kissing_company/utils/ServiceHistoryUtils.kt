@@ -82,7 +82,7 @@ class ServiceHistoryUtils {
             )
         )
         dto.setPriceListDto(priceListUtils.mapToDto(
-            priceListRepository?.findById(dto.getGirlId())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found") }
+            priceListRepository?.findById(dto.getServiceId())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found") }
         )
         )
         return dto

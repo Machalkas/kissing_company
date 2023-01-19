@@ -17,14 +17,14 @@ class PaymentSystem {
         this.publicKey = "48e7qUxn9T7RyYE1MVZswX1FRSbE6iyCj2gCRwwF3Dnh5XrasNTx3BGPiMsyXQFNKQhvukniQG8RTVhYm3iP48qvsZF5PioXs3m3bTezGnG8GH5PJSXUTS6M9D6RfBK6vxheb1aBqjNmhwJvHXHLm9vatKv3Mc8a4uyq8hUDf5MBXgFydVG6XZWrkiCKX"
     }
 
-    fun createPayment(cost: Double): String {
+    fun createPayment(cost: Float): List<String> {
         val client = BillPaymentClientFactory.createDefault(this.secretKey)
         val amount = MoneyAmount(
-            BigDecimal.valueOf(cost),
+            BigDecimal.valueOf(cost.toDouble()),
             Currency.getInstance("RUB")
         )
         val billId = UUID.randomUUID().toString()
         val successUrl = "https://105a-78-106-207-230.eu.ngrok.io/api/payment/success?bill_id=$billId"
-        return client.createPaymentForm(PaymentInfo(this.publicKey, amount, billId, successUrl))
+        return listOf(client.createPaymentForm(PaymentInfo(this.publicKey, amount, billId, successUrl)), billId)
     }
 }
