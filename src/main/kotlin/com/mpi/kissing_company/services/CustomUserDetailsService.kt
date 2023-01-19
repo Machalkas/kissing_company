@@ -19,7 +19,6 @@ class CustomUserDetailsService : UserDetailsService {
         val user = repository?.findByUsername(username)?.orElseThrow { UsernameNotFoundException("User not found") }
         val authorities: List<SimpleGrantedAuthority> =
             listOf(SimpleGrantedAuthority("user"))
-        print(user)
         return User(user?.getUsername(), user?.getPassword(), authorities)
     }
 }
