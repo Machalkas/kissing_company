@@ -1,6 +1,7 @@
 package com.mpi.kissing_company.payment
 
 import com.qiwi.billpayments.sdk.client.BillPaymentClientFactory
+import com.qiwi.billpayments.sdk.model.BillStatus
 import com.qiwi.billpayments.sdk.model.MoneyAmount
 import com.qiwi.billpayments.sdk.model.`in`.PaymentInfo
 import java.math.BigDecimal
@@ -27,5 +28,20 @@ class PaymentSystem {
         val billId = UUID.randomUUID().toString()
         val successUrl = "${url}/api/payment/success?bill_id=$billId"
         return listOf(client.createPaymentForm(PaymentInfo(this.publicKey, amount, billId, successUrl)), billId)
+    }
+
+    fun checkPayment(billId: String): Boolean{
+        val client = BillPaymentClientFactory.createDefault(this.privateKey)
+        try {
+            val response = client.getBillInfo(billId)
+            if(response.status.value == BillStatus.PAID){
+                return true
+            }
+            return false
+        }
+        catch (e: Exception){
+            return false
+        }
+
     }
 }

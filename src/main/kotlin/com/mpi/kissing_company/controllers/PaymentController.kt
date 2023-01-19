@@ -32,6 +32,9 @@ internal class PaymentController(private val repository: PaymentInfoRepository,
         if (payment_info.getIsPayd() == true){
             throw ResponseStatusException(HttpStatus.CONFLICT, "Already paid")
         }
+        if (paymentSystem?.checkPayment(billId) == false) {
+            throw ResponseStatusException(HttpStatus.CONFLICT, "Not paid")
+        }
         payment_info.setIsPayd(true)
         repository.save(payment_info)
         val service_history = payment_info.getServiceHistory()
