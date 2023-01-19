@@ -51,7 +51,10 @@ public class SecurityConfig {
 
     @Bean
     fun paymentSystem(): PaymentSystem? {
-        return PaymentSystem("public_key", "private_key")
+        val private = System.getenv("PAYMENT_PRIVATE_KEY")
+        val public = System.getenv("PAYMENT_PUBLIC_KEY")
+        val redirectUrl = System.getenv("REDIRECT_URL")
+        return PaymentSystem(public, private, redirectUrl)
     }
 
     @Bean
