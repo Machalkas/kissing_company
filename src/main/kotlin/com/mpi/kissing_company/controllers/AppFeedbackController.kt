@@ -19,13 +19,13 @@ internal class AppFeedbackController(private val repository: AppFeedbacksReposit
     @Autowired
     private val feedbacksUtils = AppFeedbacksUtils()
 
-    @GetMapping("/app_feedback")
+    @GetMapping("/api/app_feedback")
     fun getFeedbacks(@PathVariable girl_id: Long?): List<AppFeedbacksDto?> {
         return repository.findAll().map { feedbacksUtils.mapToDto(it) }
     }
 
 
-    @GetMapping("/app_feedback/avg")
+    @GetMapping("/api/app_feedback/avg")
     fun getAvg():Map<String, Double>  {
         val result_map = HashMap<String, Double>()
         val feedbacks_count = repository.count()
@@ -35,7 +35,7 @@ internal class AppFeedbackController(private val repository: AppFeedbacksReposit
     }
 
 
-    @PostMapping("/app_feedback")
+    @PostMapping("/api/app_feedback")
     fun sendFeedback(auth: Authentication, @RequestBody newFeedback: AppFeedbacksDto) : AppFeedbacksDto {
         val user = user_repository.findByUsername(auth.name).get()
         newFeedback.setUsername(user.getUsername())

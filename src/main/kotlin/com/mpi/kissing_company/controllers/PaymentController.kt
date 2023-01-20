@@ -26,7 +26,7 @@ internal class PaymentController(private val repository: PaymentInfoRepository,
     private var paymentSystem: PaymentSystem? = null
 
 
-    @GetMapping("/payment/success")
+    @GetMapping("/api/payment/success")
     fun successPaymentHandler(@RequestParam("bill_id") billId: String): ServiceHistoryDetailsDto {
         val payment_info = repository.findByBillId(billId).get()
         if (payment_info.getIsPayd() == true){
@@ -55,7 +55,7 @@ internal class PaymentController(private val repository: PaymentInfoRepository,
 
     }
 
-    @GetMapping("/payment/get_link/{service_history_id}")
+    @GetMapping("/api/payment/get_link/{service_history_id}")
     fun createPayment(@RequestParam("coins_to_use") coins: Float?, @PathVariable service_history_id: Long): String?{
         val service_history = service_history_repository.findById(service_history_id).orElseThrow { ResponseStatusException(
             HttpStatus.NOT_FOUND, "ServiceHistory not found") }

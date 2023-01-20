@@ -32,7 +32,7 @@ internal class CashbackController(private val repository: CashbackRepository,
 
 
 
-    @GetMapping("/cashback")
+    @GetMapping("/api/cashback")
     fun getUserCashback(auth: Authentication): CashbackDto {
         val user = user_repository.findByUsername(auth.name).get()
         var cashback: CashbackEntity

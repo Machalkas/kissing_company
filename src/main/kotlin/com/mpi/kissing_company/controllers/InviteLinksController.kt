@@ -15,21 +15,21 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 internal class InviteLinksController(private val repository: InviteLinksRepository) {
-    @PostMapping("/invite_link")
+    @PostMapping("/api/invite_link")
     fun generate(): InviteLinks{
         val link = InviteLinks()
         repository.save(link)
         return repository.findByinviteToken(link.getinvateToken())
     }
 
-    @GetMapping("/invite_link")
+    @GetMapping("/api/invite_link")
     @Transactional
     fun all(): List<InviteLinks?>{
         repository.deleteByExpiryDtLessThan()
         return repository.findAll()
     }
 
-    @DeleteMapping("/invite_link/{inviteToken}")
+    @DeleteMapping("/api/invite_link/{inviteToken}")
     @Transactional
     fun delete(@PathVariable inviteToken: String){
         if (repository.existsById(inviteToken) == false){

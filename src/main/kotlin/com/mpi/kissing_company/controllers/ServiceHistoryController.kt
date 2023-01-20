@@ -37,47 +37,47 @@ internal class ServiceHistoryController(private val repository: ServiceHistoryRe
     private val userUtils = UserUtils()
 
 
-    @GetMapping("/service_history")
+    @GetMapping("/api/service_history")
     fun all(): List<ServiceHistoryDto> {
         val service_history_list = repository.findAll()
         return service_history_list.map { serviceHistoryUtils.mapToDto(it) }
     }
 
-    @GetMapping("/service_history/{id}")
+    @GetMapping("/api/service_history/{id}")
     fun getById(@PathVariable id: Long): ServiceHistoryDetailsDto {
         val service_history = repository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "ServiceHistory not found") }
         return serviceHistoryUtils.mapToDetailDto(service_history)
     }
 
-    @GetMapping("/service_history/get_nearest_by_girl_id/{girl_id}")
+    @GetMapping("/api/service_history/get_nearest_by_girl_id/{girl_id}")
     fun getFirstByGirl(@PathVariable girl_id: Long): ServiceHistoryDetailsDto{
         val girl = girl_repository.findById(girl_id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
         val service_history = repository.findFirstByGirlOrderByStartDtAsc(girl).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "ServiceHistory not found") }
         return serviceHistoryUtils.mapToDetailDto(service_history)
     }
 
-    @GetMapping("/service_history/get_nearest_by_client_username/{user_username}")
+    @GetMapping("/api/service_history/get_nearest_by_client_username/{user_username}")
     fun getFirstByUser(@PathVariable user_username: String): ServiceHistoryDetailsDto{
         val client = user_repository.findById(user_username).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") }
         val service_history = repository.findFirstByClientOrderByStartDtAsc(client).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "ServiceHistory not found") }
         return serviceHistoryUtils.mapToDetailDto(service_history)
     }
 
-    @GetMapping("/service_history/get_all_for_client/{user_username}")
+    @GetMapping("/api/service_history/get_all_for_client/{user_username}")
     fun getAllByUser(@PathVariable user_username: String): List<ServiceHistoryDto>{
         val client = user_repository.findById(user_username).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") }
         val service_history = repository.findByClientOrderByStartDtAsc(client)
         return service_history.map { serviceHistoryUtils.mapToDto(it) }
     }
 
-    @GetMapping("/service_history/get_all_for_girl/{girl_id}")
+    @GetMapping("/api/service_history/get_all_for_girl/{girl_id}")
     fun getAllByGirl(@PathVariable girl_id: Long): List<ServiceHistoryDto>{
         val girl = girl_repository.findById(girl_id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
         val service_history = repository.findByGirlOrderByStartDtAsc(girl)
         return service_history.map { serviceHistoryUtils.mapToDto(it) }
     }
 
-    @PostMapping("/service_history")
+    @PostMapping("/api/service_history")
     fun createServiceHistory(auth: Authentication, @RequestBody newSeviceHistory: ServiceHistoryDto): ServiceHistoryDto {
         val user = user_repository.findByUsername(auth.name).get()
         if (user.getRole()?.name != "USER"){
@@ -108,7 +108,7 @@ internal class ServiceHistoryController(private val repository: ServiceHistoryRe
         return new_dto
     }
 
-    @PutMapping("/service_history/cancel_appointment/{service_id}")
+    @PutMapping("/api/service_history/cancel_appointment/{service_id}")
     @Transactional
     fun cancelAppointment(auth: Authentication, @PathVariable service_id: Long){
         val user = user_repository.findByUsername(auth.name).get()
@@ -154,7 +154,7 @@ internal class ServiceHistoryController(private val repository: ServiceHistoryRe
 //        repository.save(service_history)
 //    }
 
-    @PutMapping("/service_history/start/{service_id}")
+    @PutMapping("/api/service_history/start/{service_id}")
     @Transactional
     fun startAppointment(auth: Authentication, @PathVariable service_id: Long) {
         val user = user_repository.findByUsername(auth.name).get()
@@ -169,7 +169,7 @@ internal class ServiceHistoryController(private val repository: ServiceHistoryRe
         repository.save(service_history)
     }
 
-    @PutMapping("/service_history/stop/{service_id}")
+    @PutMapping("/api/service_history/stop/{service_id}")
     @Transactional
     fun stopAppointment(auth: Authentication, @PathVariable service_id: Long):  ServiceHistoryDetailsDto {
         val user = user_repository.findByUsername(auth.name).get()

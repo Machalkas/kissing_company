@@ -30,24 +30,24 @@ internal class UserController(private val repository: UserRepository,
     @Autowired
     private val userUtils = UserUtils()
 
-    @GetMapping("/users")
+    @GetMapping("/api/users")
     fun all(): List<UserInfoDto> {
         val all_users = repository.findAll()
         return all_users.map { userUtils.mapToDto(it) }
     }
 
-    @GetMapping("/users/{username}")
+    @GetMapping("/api/users/{username}")
     fun one(@PathVariable username: String): UserInfoDto? {
         val user_entity = repository.findByUsername(username).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") }
         return userUtils.mapToDto(user_entity)
     }
 
-    @GetMapping("/users/me")
+    @GetMapping("/api/users/me")
     fun myself(auth: Authentication): UserInfoDto {
         return userUtils.mapToDto(repository.findByUsername(auth.name).get())
     }
 
-    @PutMapping("/users/{username}")
+    @PutMapping("/api/users/{username}")
     fun updateUser(@RequestBody newUser: UserInfoDto, @PathVariable username: String): UserInfoDto {
         var user = repository.findByUsername(username).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") }
         user?.setsecond_name(newUser.getSecondName())
@@ -58,7 +58,7 @@ internal class UserController(private val repository: UserRepository,
 
     }
 
-    @DeleteMapping("/user/{username}")
+    @DeleteMapping("/api/user/{username}")
     fun deleteUsername(@PathVariable username: String){
         if (repository.existsByUsername(username) == false){
             ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")

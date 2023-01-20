@@ -34,7 +34,7 @@ internal class GirlsPhotosController(private val repository: GirlPhotoRepository
     @Autowired
     private val girlPhotoUtils = GirlPhotoUtils()
 
-    @PostMapping("/girls_photos")
+    @PostMapping("/api/girls_photos")
     fun uploadImage(auth: Authentication, @RequestParam("image") image: MultipartFile, @RequestParam("is_profile_photo") isProfilePhoto: Boolean = false): GirlPhotoRetrieveDto{
         val user = user_repository.findByUsername(auth.name).get()
         val girl_entity = girl_repository.findByUser(user).orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "Looks like u are not a girl. So sorry") }
@@ -60,7 +60,7 @@ internal class GirlsPhotosController(private val repository: GirlPhotoRepository
         return new_photo_dto
     }
 
-    @GetMapping("/girls_photos/download_image/{id}", produces = arrayOf(MediaType.IMAGE_JPEG_VALUE))
+    @GetMapping("/api/girls_photos/download_image/{id}", produces = arrayOf(MediaType.IMAGE_JPEG_VALUE))
     fun downloadPhotoById(@PathVariable id: Long): ResponseEntity<Resource>{
         val image_db = repository.findById(id).orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "Not found") }
         val inputStream = ByteArrayResource(
@@ -75,7 +75,7 @@ internal class GirlsPhotosController(private val repository: GirlPhotoRepository
             .body(inputStream);
     }
 
-    @GetMapping("/girls_photos/{girl_id}")
+    @GetMapping("/api/girls_photos/{girl_id}")
     fun getAllByGirl(@PathVariable girl_id: Long, @RequestParam("is_profile_photo") isProfilePhoto: Boolean? = null): List<GirlPhotoRetrieveDto>{
         val girl = girl_repository.findById(girl_id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
         var girl_entity: List<GirlPhoto?>? = null
@@ -91,7 +91,7 @@ internal class GirlsPhotosController(private val repository: GirlPhotoRepository
         return emptyList()
     }
 
-    @DeleteMapping("/girls_photos/{id}")
+    @DeleteMapping("/api/girls_photos/{id}")
     @Transactional
     fun deletePhotoById(auth: Authentication, @PathVariable id: Long){
         val photo = repository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Photo not found") }

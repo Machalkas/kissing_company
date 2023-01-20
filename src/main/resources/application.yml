@@ -1,10 +1,10 @@
 server:
   address: 0.0.0.0
   port: 3233
+  #port: 33770
   error:
     include-message: ALWAYS
-  servlet:
-    context-path: /api
+
 
 springdoc:
   swagger-ui:
@@ -13,8 +13,11 @@ springdoc:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/kissing_company
+    #url: jdbc:postgresql://192.168.10.80:5432/studs
     username: admin
     password: admin
+    #username: s337706
+    #password: KbnSjgwLDV2n9vw3
     driver-class-name: org.postgresql.Driver
     data: init.sql
     initialization-mode: always
@@ -28,9 +31,13 @@ spring:
       hibernate.jdbc.lob.non_contextual_creation: true
       hibernate:
         default_schema: public
+        #default_schema: s337706
   liquibase:
     change-log: classpath:/db/changelog/changelog.yml
     enabled: false
+  web:
+    resources:
+      static-locations: classpath:/static
 
 security:
   config: com.mpi.kissing_company.security.CustomSecurityConfiguration

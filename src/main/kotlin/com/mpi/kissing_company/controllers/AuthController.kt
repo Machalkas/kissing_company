@@ -27,7 +27,7 @@ import org.springframework.web.server.ResponseStatusException
 var mapper = ObjectMapper()
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 class AuthController {
     @Autowired
     private val authenticationManager: AuthenticationManager? = null

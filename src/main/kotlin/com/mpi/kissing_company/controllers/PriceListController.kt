@@ -16,7 +16,7 @@ internal class PriceListController(private val repository: PriceListRepository) 
     @Autowired
     private val priceListUtils = PriceListUtils()
 
-    @GetMapping("/price_list/{id}")
+    @GetMapping("/api/price_list/{id}")
     fun one(@PathVariable id: Long?): PriceListDto {
         val service =
             repository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found") }
@@ -24,7 +24,7 @@ internal class PriceListController(private val repository: PriceListRepository) 
         return priceListUtils.mapToDto(service)
     }
 
-    @GetMapping("/price_list")
+    @GetMapping("/api/price_list")
     fun all(@RequestParam name: String? = null, @RequestParam girl: Girl? = null): List<PriceListDto> {
         val price_list_entity = repository.findAll()
         var price_list_dto = price_list_entity.map { priceListUtils.mapToDto(it) }
@@ -32,7 +32,7 @@ internal class PriceListController(private val repository: PriceListRepository) 
     }
 
 
-    @PostMapping("/price_list")
+    @PostMapping("/api/price_list")
     fun newService(@RequestBody price_list_dto: PriceListDto): PriceListDto{
         val price_list_entity = priceListUtils.mapToEntity(price_list_dto)
         var saved = repository.save(price_list_entity)
@@ -41,7 +41,7 @@ internal class PriceListController(private val repository: PriceListRepository) 
         return priceListUtils.mapToDto(new_ent.get())
     }
 
-    @DeleteMapping("/price_list/{id}")
+    @DeleteMapping("/api/price_list/{id}")
     @Transactional
     fun deleteService(@PathVariable id: Long?){
         if (repository.existsById(id) == false){
@@ -50,7 +50,7 @@ internal class PriceListController(private val repository: PriceListRepository) 
         repository.deleteById(id)
     }
 
-    @PutMapping("/price_list/{id}")
+    @PutMapping("/api/price_list/{id}")
     fun updateService(@RequestBody newService: PriceListDto, @PathVariable id: Long): PriceListDto{
         if (repository.existsById(id) == false){
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found")

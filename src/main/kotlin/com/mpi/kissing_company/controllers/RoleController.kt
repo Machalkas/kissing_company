@@ -13,25 +13,25 @@ import java.util.function.Supplier
 @RestController
 internal class RoleController(private val repository: RoleRepository) {
 
-    @GetMapping("/roles")
+    @GetMapping("/api/roles")
 //    @PreAuthorize("hasAuthority('ADMIN')")
     fun all(): List<Role?> {
         return repository.findAll()
     }
 
-    @PostMapping("/roles")
+    @PostMapping("/api/roles")
     fun newRole(@RequestBody newRole: Role): Role{
         newRole.name = newRole.name.uppercase()
         return repository.save(newRole)
     }
 
-    @GetMapping("/roles/{id}")
+    @GetMapping("/api/roles/{id}")
     fun one(@PathVariable id: Long): Role? {
         return repository.findById(id)
             .orElseThrow(Supplier<RuntimeException> { RoleNotFoundException(id) })
     }
 
-    @PostMapping("/roles/{id}")  // shuld be Put, but Put didnt work
+    @PostMapping("/api/roles/{id}")  // shuld be Put, but Put didnt work
     fun replaceRole(@RequestBody newRole: Role, @PathVariable id: Long): Optional<Role>? {
         return repository.findById(id)
             .map<Role>(Function { role: Role ->
@@ -41,7 +41,7 @@ internal class RoleController(private val repository: RoleRepository) {
     }
 
     //    @DeleteMapping("/roles/{id}")
-    @RequestMapping(value= ["/empdelete/{id}"], method= [RequestMethod.DELETE])
+    @RequestMapping(value= ["/api/empdelete/{id}"], method= [RequestMethod.DELETE])
     fun deleteRolename(@PathVariable id: Long){
         repository.deleteById(id)
     }

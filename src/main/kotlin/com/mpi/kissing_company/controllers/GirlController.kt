@@ -29,26 +29,26 @@ internal class GirlController(private val repository: GirlRepository,
     private val girlUtils = GirlUtils()
 
 
-    @GetMapping("/girls")
+    @GetMapping("/api/girls")
     fun all(): List<GirlDto> {
         val girl_entity = repository.findAll()
         return girl_entity.map { girlUtils.mapToDto(it) }
     }
 
-    @GetMapping("/girls/{id}")
+    @GetMapping("/api/girls/{id}")
     fun one(@PathVariable id: Long): GirlDto {
         val girl_entity = repository.findById(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
         return girlUtils.mapToDto(girl_entity)
     }
 
-    @GetMapping("/girls/me")
+    @GetMapping("/api/girls/me")
     fun getGirlOfMyself(auth: Authentication): GirlDto {
         val user = user_repository.findByUsername(auth.name).get()
         val girl_entity = repository.findByUser(user).orElseThrow { throw ResponseStatusException(HttpStatus.NOT_FOUND, "Looks like u are not a girl. So sorry") }
         return girlUtils.mapToDto(girl_entity)
     }
 
-    @PostMapping("/girls/registration/{token}")
+    @PostMapping("/api/girls/registration/{token}")
     @Transactional
     fun registrateGirl(auth: Authentication, @RequestBody newGirl: GirlDto, @PathVariable token: String): GirlDto {
 
@@ -87,7 +87,7 @@ internal class GirlController(private val repository: GirlRepository,
 
     }
 
-    @PutMapping("/girls/{id}")
+    @PutMapping("/api/girls/{id}")
     @Transactional
     fun updateGirl(@RequestBody newGirl: GirlDto, @PathVariable id: Long): GirlDto {
         if (repository.existsById(id) == false){
@@ -107,7 +107,7 @@ internal class GirlController(private val repository: GirlRepository,
         return girlUtils.mapToDto(current_girl)
     }
 
-    @DeleteMapping("/girls/{id}")
+    @DeleteMapping("/api/girls/{id}")
     @Transactional
     fun deleteGirl(@PathVariable id: Long){
         if (repository.existsById(id) == false){
