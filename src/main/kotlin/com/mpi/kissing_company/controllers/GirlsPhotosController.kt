@@ -34,6 +34,8 @@ internal class GirlsPhotosController(private val repository: GirlPhotoRepository
     @Autowired
     private val girlPhotoUtils = GirlPhotoUtils()
 
+    private var path = System.getenv("STATIC_FILES_PATH")
+
     @PostMapping("/api/girls_photos")
     fun uploadImage(auth: Authentication, @RequestParam("image") image: MultipartFile, @RequestParam("is_profile_photo") isProfilePhoto: Boolean = false): GirlPhotoRetrieveDto{
         val user = user_repository.findByUsername(auth.name).get()
@@ -46,16 +48,15 @@ internal class GirlsPhotosController(private val repository: GirlPhotoRepository
         }
         val uuid = UUID.randomUUID().toString()
         val new_filename = uuid + filename_dot_index?.let { filename?.substring(it) }
-        var path = env?.getProperty("static_path.girls_images")
-        if (path == ""){
-            path = System.getProperty("user.dir")+"\\girls_images\\"
+        if (this.path == ""){
+            this.path = System.getProperty("user.dir")+"\\girls_images\\"
         }
-        val directory = File(path)
+        val directory = File(this.path)
         if (!directory.exists()) {
             directory.mkdirs()
         }
-        val new_photo = repository.save(GirlPhoto(path+new_filename, girl_entity, isProfilePhoto))
-        Files.write(Path(path+new_filename), image.bytes)
+        val new_photo = repository.save(GirlPhoto(this.path+new_filename, girl_entity, isProfilePhoto))
+        Files.write(Path(this.path+new_filename), image.bytes)
         var new_photo_dto = girlPhotoUtils.mapToRetrieveDto(new_photo)
         return new_photo_dto
     }
