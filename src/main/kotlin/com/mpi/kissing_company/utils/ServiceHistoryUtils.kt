@@ -3,6 +3,7 @@ package com.mpi.kissing_company.utils
 import com.mpi.kissing_company.dto.ServiceHistoryDetailsDto
 import com.mpi.kissing_company.dto.ServiceHistoryDto
 import com.mpi.kissing_company.entities.ServiceHistory
+import com.mpi.kissing_company.repositories.*
 import com.mpi.kissing_company.repositories.GirlRepository
 import com.mpi.kissing_company.repositories.PaymentTokensRepository
 import com.mpi.kissing_company.repositories.PriceListRepository
@@ -23,6 +24,8 @@ class ServiceHistoryUtils {
     private val priceListRepository: PriceListRepository? = null
     @Autowired
     private val paymentTokensRepository: PaymentTokensRepository? = null
+    @Autowired
+    private val feedbacksRepository: FeedbacksRepository? = null
 
     @Autowired
     private val girlUtils = GirlUtils()
@@ -32,6 +35,8 @@ class ServiceHistoryUtils {
     private val priceListUtils = PriceListUtils()
     @Autowired
     private val paymentTokensUtils = PaymentTokensUtils()
+    @Autowired
+    private var feedbacksUtils = FeedbacksUtils()
 
     fun mapToDto(entity: ServiceHistory?): ServiceHistoryDto {
         val dto = ServiceHistoryDto(
@@ -90,6 +95,7 @@ class ServiceHistoryUtils {
         dto.setPaymentTokensDto(paymentTokensUtils.mapToDto(
             paymentTokensRepository?.findByserviceHistory(entity)
         ))
+        dto.setFeedbacksDto(feedbacksUtils.mapToDto(feedbacksRepository?.findByServiceHistoryId(entity?.id)))
         return dto
     }
 }

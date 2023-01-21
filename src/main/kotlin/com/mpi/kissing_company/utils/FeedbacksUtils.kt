@@ -29,7 +29,10 @@ class FeedbacksUtils {
     @Autowired
     private val userUtils = UserUtils()
 
-    fun mapToDto(entity: Feedbacks?): FeedbacksDto {
+    fun mapToDto(entity: Feedbacks?): FeedbacksDto? {
+        if(entity == null){
+            return null
+        }
         val service_history = entity?.serviceHistory?.id?.let { this.serviceHistory?.findById(it)
             ?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "ServiceHistory not found") } }
         val dto = FeedbacksDto(

@@ -36,7 +36,11 @@ private val service_repository: ServiceHistoryRepository) {
         if(service_id?.let { service_repository.existsById(it) } == false){
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "ServiceHistory not found")
         }
-        return feedbacksUtils.mapToDto(repository.findByServiceHistoryIdOrderByCreateAtDesc(service_id))
+        val feedback = repository.findByServiceHistoryId(service_id)
+        if (feedback == null){
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "Feedback not found")
+        }
+        return feedbacksUtils.mapToDto(feedback)
     }
 
 
@@ -66,7 +70,7 @@ private val service_repository: ServiceHistoryRepository) {
         newFeedback.setUsername(user.getUsername())
         try {
             val new_feedback = repository.save(feedbacksUtils.mapToEntity(newFeedback))
-            return feedbacksUtils.mapToDto(new_feedback)
+            return feedbacksUtils.mapToDto(new_feedback)!!
         } catch (ex: org.springframework.dao.DataIntegrityViolationException){
             throw ResponseStatusException(HttpStatus.CONFLICT, "U can create only one feedback per order")
         }
