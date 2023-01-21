@@ -13,7 +13,7 @@ class PaymentTokens{
     private val id: Long? = null
     @Column(unique = true)
     private var billId: String? = null
-    @Column(unique = true)
+    @Column(unique = true, length = 1000)
     private var paymentUrl: String? = null
     @ManyToOne(optional = false)
     @JoinColumn(name="service_history")
@@ -27,8 +27,9 @@ class PaymentTokens{
     }
 
 
-    constructor(billId: String?, serviceHistory: ServiceHistory?) {
+    constructor(billId: String?, payment_url: String?, serviceHistory: ServiceHistory?) {
         this.billId = billId
+        this.paymentUrl = payment_url
         this.serviceHistory = serviceHistory
     }
 

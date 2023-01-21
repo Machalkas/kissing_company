@@ -26,15 +26,15 @@ internal class PaymentController(private val repository: PaymentTokensRepository
     private var paymentSystem: PaymentSystem? = null
 
 
-    @GetMapping("/api/payment/success")
-    fun successPaymentHandler(@RequestParam("bill_id") billId: String): ServiceHistoryDetailsDto {
-        val payment_info = repository.findByBillId(billId).get()
-        val service_history = payment_info.getServiceHistory()
-        if (payment_info.getIsPayd() == true){
+    @GetMapping("/api/payment/info/{billId}")
+    fun successPaymentHandler(@PathVariable billId: String): ServiceHistoryDetailsDto {
+        val payment_info = repository.findByBillId(billId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+        val service_history = payment_info?.getServiceHistory()
+        if (payment_info!!.getIsPayd() == true){
             return serviceHistoryUtils.mapToDetailDto(service_history_repository.save(service_history))
         }
         if (paymentSystem?.checkPayment(billId) == false) {
-            throw ResponseStatusException(HttpStatus.CONFLICT, "Not paid")
+            return serviceHistoryUtils.mapToDetailDto(service_history)
         }
         payment_info.setIsPayd(true)
         repository.save(payment_info)
@@ -56,16 +56,24 @@ internal class PaymentController(private val repository: PaymentTokensRepository
     }
 
     @GetMapping("/api/payment/get_link/{service_history_id}")
-    fun createPayment(@RequestParam("coins_to_use") coins: Float?, @PathVariable service_history_id: Long): String?{
+    fun createPayment(@RequestParam("coins_to_use") coins: Float?, @PathVariable service_history_id: Long): Map<String?, String?>?{
+        val result_map = HashMap<String?, String?>()
+        var payment_result: List<String>?
         val service_history = service_history_repository.findById(service_history_id).orElseThrow { ResponseStatusException(
             HttpStatus.NOT_FOUND, "ServiceHistory not found") }
         if (service_history!!.getStatus() != "CREATED"){
             throw ResponseStatusException(HttpStatus.CONFLICT, "Already paid")
         }
-        if (coins == null){
-            val payment_result = service_history?.getTotalCost()?.let { paymentSystem?.createPayment(it) }
-            repository.save(PaymentTokens(payment_result?.get(1), service_history))
-            return payment_result?.get(0)
+        if (coins == null) {
+            payment_result = service_history?.getTotalCost()?.let { paymentSystem?.createPayment(it) }
+            try {
+                repository.save(PaymentTokens(payment_result?.get(1), payment_result?.get(0), service_history))
+            } catch (ex: Exception) {
+                throw ResponseStatusException(HttpStatus.CONFLICT, "Payment link already exist")
+            }
+            result_map.put("dillId", payment_result?.get(1))
+            result_map.put("paymentUrl", payment_result?.get(0))
+            return result_map
         }
         val user = service_history?.getClient()!!
         var cashback: CashbackEntity
@@ -84,8 +92,10 @@ internal class PaymentController(private val repository: PaymentTokensRepository
         cashback.setSlutCoins(cashback.getSlutCoins()!! - valid_coins_amount)
         cashback_repository.save(cashback)
         val new_cost = service_history?.getTotalCost()!! - valid_coins_amount
-        val payment_result = new_cost.let { paymentSystem?.createPayment(it) }
-        repository.save(PaymentTokens(payment_result?.get(1), service_history))
-        return payment_result?.get(0)
+        payment_result = new_cost.let { paymentSystem?.createPayment(it) }
+        repository.save(PaymentTokens(payment_result?.get(1), payment_result?.get(0), service_history))
+        result_map.put("billId", payment_result?.get(1))
+        result_map.put("paymentUrl", payment_result?.get(0))
+        return result_map
     }
 }
