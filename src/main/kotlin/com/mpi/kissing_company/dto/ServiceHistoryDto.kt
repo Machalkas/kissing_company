@@ -92,6 +92,7 @@ class ServiceHistoryDetailsDto(
     private var clientDto: UserInfoDto? = null
     private var girlDto: GirlDto? = null
     private var priceListDto: PriceListDto? = null
+    private var paymentTokensDto: PaymentTokensDto? = null
 
     fun getClientDto(): UserInfoDto?{
         return this.clientDto
@@ -102,6 +103,9 @@ class ServiceHistoryDetailsDto(
     fun getPriceListDto(): PriceListDto?{
         return this.priceListDto
     }
+    fun getPaymentTokensDto(): PaymentTokensDto?{
+        return this.paymentTokensDto
+    }
 
     fun setClientDto(dto: UserInfoDto){
         this.clientDto = dto
@@ -111,5 +115,8 @@ class ServiceHistoryDetailsDto(
     }
     fun setPriceListDto(dto: PriceListDto?){
         this.priceListDto = dto
+    }
+    fun setPaymentTokensDto(dto: PaymentTokensDto?){
+        this.paymentTokensDto = dto
     }
 }

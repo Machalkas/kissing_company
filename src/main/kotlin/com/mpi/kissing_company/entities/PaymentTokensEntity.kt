@@ -6,14 +6,17 @@ import javax.persistence.*
 
 
 @Entity
-@Table(name = "Payment_tokens")
+@Table(name = "Payment_tokens", uniqueConstraints=[UniqueConstraint(columnNames = ["service_history"])])
 class PaymentTokens{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Long? = null
     @Column(unique = true)
     private var billId: String? = null
+    @Column(unique = true)
+    private var paymentUrl: String? = null
     @ManyToOne(optional = false)
+    @JoinColumn(name="service_history")
     private var serviceHistory: ServiceHistory? = null
     private var isPayd: Boolean? = false
     var createAt: LocalDateTime? = null
@@ -32,8 +35,11 @@ class PaymentTokens{
     fun getId(): Long? {
         return this.id
     }
-    fun getDillId(): String? {
+    fun getBillId(): String? {
         return this.billId
+    }
+    fun getPaymentUrl(): String?{
+        return this.paymentUrl
     }
     fun getServiceHistory(): ServiceHistory? {
         return this.serviceHistory

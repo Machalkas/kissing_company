@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException
 
 
 @RestController
-internal class PaymentController(private val repository: PaymentInfoRepository,
+internal class PaymentController(private val repository: PaymentTokensRepository,
                                  private val service_history_repository: ServiceHistoryRepository,
                                  private val cashback_repository: CashbackRepository) {
 

@@ -1,0 +1,91 @@
+package com.mpi.kissing_company.utils
+
+import com.mpi.kissing_company.dto.PaymentTokensDto
+import com.mpi.kissing_company.dto.ServiceHistoryDetailsDto
+import com.mpi.kissing_company.dto.ServiceHistoryDto
+import com.mpi.kissing_company.entities.PaymentTokens
+import com.mpi.kissing_company.entities.ServiceHistory
+import com.mpi.kissing_company.repositories.GirlRepository
+import com.mpi.kissing_company.repositories.PriceListRepository
+import com.mpi.kissing_company.repositories.UserRepository
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
+
+@Service
+class PaymentTokensUtils {
+
+    @Autowired
+    private val userRepository: UserRepository? = null
+    @Autowired
+    private val girlRepository: GirlRepository? = null
+    @Autowired
+    private val priceListRepository: PriceListRepository? = null
+
+    @Autowired
+    private val girlUtils = GirlUtils()
+    @Autowired
+    private val userUtils = UserUtils()
+    @Autowired
+    private val priceListUtils = PriceListUtils()
+
+    fun mapToDto(entity: PaymentTokens?): PaymentTokensDto? {
+        if(entity == null){
+            return null
+        }
+        val dto = PaymentTokensDto(
+            id = entity?.getId(),
+            billId = entity?.getBillId(),
+            paymentUrl = entity?.getPaymentUrl(),
+            serviceHistoryId = entity?.getServiceHistory()?.id,
+            isPayd = entity?.getIsPayd(),
+            createAt = entity?.createAt
+        )
+        return dto
+    }
+
+//    fun mapToEntity(dto: ServiceHistoryDto): ServiceHistory {
+//        val user = userRepository?.findByUsername(dto.getUsername())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found") }
+//        val girl = girlRepository?.findById(dto.getGirlId())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
+//        val service = priceListRepository?.findById(dto.getServiceId())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found") }
+//
+//        val entity = ServiceHistory(
+//            client = user,
+//            girl = girl,
+//            service = service,
+//            status = dto.getStatus(),
+//            startDt = dto.getStartDt(),
+//            totalCost = dto.getTotalCost()
+//        )
+//        return entity
+//    }
+
+//    fun mapToDetailDto(entity: ServiceHistory?): ServiceHistoryDetailsDto {
+//        val dto = ServiceHistoryDetailsDto(
+//            id = entity?.id,
+//            girl_id = entity?.getGirl()?.getId(),
+//            service_id = entity?.getService()?.id,
+//            user_username = entity?.getClient()?.getUsername(),
+//            startDt = entity?.getStartDt(),
+//            endDt = entity?.getEndDt(),
+//            totalCost = entity?.getTotalCost(),
+//            status = entity?.getStatus(),
+//            createAt = entity?.createAt,
+//            updateAt = entity?.updateAt
+//        )
+//        dto.setGirlDto(girlUtils.mapToDto(
+//            girlRepository?.findById(dto.getGirlId())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
+//            )
+//        )
+//        dto.setClientDto(userUtils.mapToDto(
+//            userRepository?.findByUsername(dto.getUsername())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") }
+//            )
+//        )
+//        dto.setPriceListDto(priceListUtils.mapToDto(
+//            priceListRepository?.findById(dto.getServiceId())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found") }
+//        )
+//        )
+//        return dto
+//    }
+}

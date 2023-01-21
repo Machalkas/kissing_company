@@ -4,6 +4,7 @@ import com.mpi.kissing_company.dto.ServiceHistoryDetailsDto
 import com.mpi.kissing_company.dto.ServiceHistoryDto
 import com.mpi.kissing_company.entities.ServiceHistory
 import com.mpi.kissing_company.repositories.GirlRepository
+import com.mpi.kissing_company.repositories.PaymentTokensRepository
 import com.mpi.kissing_company.repositories.PriceListRepository
 import com.mpi.kissing_company.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,6 +21,8 @@ class ServiceHistoryUtils {
     private val girlRepository: GirlRepository? = null
     @Autowired
     private val priceListRepository: PriceListRepository? = null
+    @Autowired
+    private val paymentTokensRepository: PaymentTokensRepository? = null
 
     @Autowired
     private val girlUtils = GirlUtils()
@@ -27,6 +30,8 @@ class ServiceHistoryUtils {
     private val userUtils = UserUtils()
     @Autowired
     private val priceListUtils = PriceListUtils()
+    @Autowired
+    private val paymentTokensUtils = PaymentTokensUtils()
 
     fun mapToDto(entity: ServiceHistory?): ServiceHistoryDto {
         val dto = ServiceHistoryDto(
@@ -75,16 +80,16 @@ class ServiceHistoryUtils {
         )
         dto.setGirlDto(girlUtils.mapToDto(
             girlRepository?.findById(dto.getGirlId())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
-            )
-        )
+        ))
         dto.setClientDto(userUtils.mapToDto(
             userRepository?.findByUsername(dto.getUsername())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") }
-            )
-        )
+        ))
         dto.setPriceListDto(priceListUtils.mapToDto(
             priceListRepository?.findById(dto.getServiceId())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Service not found") }
-        )
-        )
+        ))
+        dto.setPaymentTokensDto(paymentTokensUtils.mapToDto(
+            paymentTokensRepository?.findByserviceHistory(entity)
+        ))
         return dto
     }
 }
