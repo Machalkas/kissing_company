@@ -7,6 +7,7 @@ import com.mpi.kissing_company.entities.Feedbacks
 import com.mpi.kissing_company.entities.ServiceHistory
 import com.mpi.kissing_company.repositories.GirlRepository
 import com.mpi.kissing_company.repositories.PriceListRepository
+import com.mpi.kissing_company.repositories.ServiceHistoryRepository
 import com.mpi.kissing_company.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -20,6 +21,8 @@ class FeedbacksUtils {
     private val userRepository: UserRepository? = null
     @Autowired
     private val girlRepository: GirlRepository? = null
+    @Autowired
+    private val serviceHistory: ServiceHistoryRepository? = null
 
     @Autowired
     private val girlUtils = GirlUtils()
@@ -27,12 +30,15 @@ class FeedbacksUtils {
     private val userUtils = UserUtils()
 
     fun mapToDto(entity: Feedbacks?): FeedbacksDto {
+        val service_history = entity?.serviceHistory?.id?.let { this.serviceHistory?.findById(it)
+            ?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "ServiceHistory not found") } }
         val dto = FeedbacksDto(
             id = entity?.id,
-            girl_id = entity?.girl?.getId(),
+            girl_id = service_history?.getGirl()?.getId(),
             stars = entity?.stars,
             user_username = entity?.user?.getUsername(),
             comment = entity?.comment,
+            service_history_id = entity?.serviceHistory?.id,
             createAt = entity?.createAt,
             updateAt = entity?.updateAt
         )
@@ -40,14 +46,16 @@ class FeedbacksUtils {
     }
 
     fun mapToEntity(dto: FeedbacksDto): Feedbacks {
+        val service_history = dto.getServiceHistoryId()?.let { serviceHistory?.findById(it) }
+            ?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "ServiceHistory not found") }
         val user = userRepository?.findByUsername(dto.getUsername())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found") }
-        val girl = girlRepository?.findById(dto.getGirlId())?.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found") }
-
+        val girl = service_history?.getGirl()
         val entity = Feedbacks(
             user = user,
             girl = girl,
             stars = dto.getStars(),
-            comment = dto.getComment()
+            comment = dto.getComment(),
+            serviceHistory = service_history
         )
         return entity
     }

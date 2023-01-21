@@ -8,8 +8,10 @@ import com.mpi.kissing_company.repositories.UserRepository
 import com.mpi.kissing_company.utils.AppFeedbacksUtils
 import com.mpi.kissing_company.utils.FeedbacksUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 
 
 @RestController
@@ -39,8 +41,12 @@ internal class AppFeedbackController(private val repository: AppFeedbacksReposit
     fun sendFeedback(auth: Authentication, @RequestBody newFeedback: AppFeedbacksDto) : AppFeedbacksDto {
         val user = user_repository.findByUsername(auth.name).get()
         newFeedback.setUsername(user.getUsername())
+        try{
         val new_feedback = repository.save(feedbacksUtils.mapToEntity(newFeedback))
         return feedbacksUtils.mapToDto(new_feedback)
+        } catch (ex: org.springframework.dao.DataIntegrityViolationException){
+            throw ResponseStatusException(HttpStatus.CONFLICT, "U can create only one feedback")
+        }
     }
 
 }

@@ -12,6 +12,7 @@ import javax.persistence.*
 
 //
 @Entity
+@Table(name = "feedbacks", uniqueConstraints=[UniqueConstraint(columnNames = ["girl", "service_history"])])
 class Feedbacks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +21,12 @@ class Feedbacks {
     var user: User? = null
 
     @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE))
+    @JoinColumn(name="girl")
     var girl: Girl? = null
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name="service_history")
+    var serviceHistory: ServiceHistory? = null
 
     @Column(columnDefinition = "numeric")
     var stars: Double? = null
@@ -41,21 +47,23 @@ class Feedbacks {
         updateAt = LocalDateTime.now()
     }
 
-    constructor(user: User?, girl: Girl?, stars: Double?, comment: String?){
+    constructor(user: User?, girl: Girl?, stars: Double?, comment: String?, serviceHistory: ServiceHistory?){
         this.user = user
         this.girl = girl
         this.comment = comment
         this.stars = stars
+        this.serviceHistory = serviceHistory
     }
 }
 
 @Entity
-@Table(name = "app_feedbacks")
+@Table(name = "app_feedbacks", uniqueConstraints=[UniqueConstraint(columnNames = ["user_fk"])])
 class AppFeedbacks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = arrayOf(CascadeType.REMOVE))
+    @JoinColumn(name="user_fk")
     var user: User? = null
 
     @Column(columnDefinition = "numeric")
