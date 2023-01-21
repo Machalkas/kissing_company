@@ -45,10 +45,13 @@ private val service_repository: ServiceHistoryRepository) {
         if(girl_id?.let { girl_repository.existsById(it) } == false){
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Girl not found")
         }
+        var value: Double = 4.5
         val result_map = HashMap<String, Double>()
         val feedbacks_count = repository.countByGirlId(girl_id)
-        val total_stars_sum = repository.sumStarsByGirlId(girl_id)
-        var value = total_stars_sum / feedbacks_count
+        var total_stars_sum = repository.sumStarsByGirlId(girl_id)
+        if (total_stars_sum != null){
+            value = total_stars_sum / feedbacks_count
+        }
         if (value > 5){
             value = 5.0
         }

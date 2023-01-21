@@ -32,7 +32,12 @@ internal class AppFeedbackController(private val repository: AppFeedbacksReposit
         val result_map = HashMap<String, Double>()
         val feedbacks_count = repository.count()
         val total_stars_sum = repository.sumStarsAll()
-        result_map.put("stars_avg", total_stars_sum/feedbacks_count)
+        if (total_stars_sum != null) {
+            result_map.put("stars_avg", total_stars_sum / feedbacks_count)
+        }
+        else{
+            result_map.put("stars_avg", 0.0)
+        }
         return result_map
     }
 
