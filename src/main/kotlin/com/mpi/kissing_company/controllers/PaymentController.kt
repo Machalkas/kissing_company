@@ -29,15 +29,15 @@ internal class PaymentController(private val repository: PaymentInfoRepository,
     @GetMapping("/api/payment/success")
     fun successPaymentHandler(@RequestParam("bill_id") billId: String): ServiceHistoryDetailsDto {
         val payment_info = repository.findByBillId(billId).get()
+        val service_history = payment_info.getServiceHistory()
         if (payment_info.getIsPayd() == true){
-            throw ResponseStatusException(HttpStatus.CONFLICT, "Already paid")
+            return serviceHistoryUtils.mapToDetailDto(service_history_repository.save(service_history))
         }
         if (paymentSystem?.checkPayment(billId) == false) {
             throw ResponseStatusException(HttpStatus.CONFLICT, "Not paid")
         }
         payment_info.setIsPayd(true)
         repository.save(payment_info)
-        val service_history = payment_info.getServiceHistory()
         service_history?.setStatus("APPROVED")
 
         val user = service_history?.getClient()!!

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query
 internal interface FeedbacksRepository : JpaRepository<Feedbacks?, String> {
     fun findById(id: Long?): Feedbacks
     fun findByGirlIdOrderByCreateAtDesc(id: Long?): List<Feedbacks?>
-    @Query(value = "SELECT SUM(stars) FROM feedbacks", nativeQuery = true)
+    @Query(value = "SELECT SUM(stars) FROM feedbacks where girl_id = ?1", nativeQuery = true)
     fun sumStarsByGirlId(id: Long?): Double
     fun countByGirlId(id: Long?): Int
 }
