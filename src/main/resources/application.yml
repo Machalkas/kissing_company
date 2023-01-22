@@ -13,7 +13,7 @@ springdoc:
 spring:
   servlet:
     multipart:
-      max-file-size: 10MB
+      max-file-size: 30MB
   datasource:
 #    url: jdbc:postgresql://localhost:5432/kissing_company
     url: jdbc:postgresql://192.168.10.80:5432/studs
