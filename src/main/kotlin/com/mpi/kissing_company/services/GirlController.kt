@@ -1,4 +1,4 @@
-package com.mpi.kissing_company.controllers
+package com.mpi.kissing_company.services
 
 import com.mpi.kissing_company.dto.GirlDto
 import com.mpi.kissing_company.entities.InviteLinks
@@ -8,7 +8,6 @@ import com.mpi.kissing_company.repositories.RoleRepository
 import com.mpi.kissing_company.repositories.UserRepository
 import com.mpi.kissing_company.utils.GirlUtils
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.core.env.Environment
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication

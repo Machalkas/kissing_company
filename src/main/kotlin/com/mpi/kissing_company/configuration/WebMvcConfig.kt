@@ -24,6 +24,7 @@ class WebMvcConfig : WebMvcConfigurer {
         registry.addViewController("/hooker/**").setViewName("forward:/index.html")
         registry.addViewController("/pimp/**").setViewName("forward:/index.html")
         registry.addViewController("/user/**").setViewName("forward:/index.html")
+        registry.addViewController("/hooker-registration/**").setViewName("forward:/index.html")
         registry.addViewController("/").setViewName("forward:/index.html")
     }
 }

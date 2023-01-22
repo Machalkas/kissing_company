@@ -114,6 +114,8 @@ public class SecurityConfig {
             .antMatchers(HttpMethod.POST, "/api/auth/registration").permitAll()
             .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
             .antMatchers(HttpMethod.GET, "/").permitAll()
+            .antMatchers(HttpMethod.GET, "/hooker-registration/**").permitAll()
+
             .antMatchers(HttpMethod.GET, "/manifest.json").permitAll()
             .antMatchers(HttpMethod.GET, "/service-worker.js").permitAll()
             .antMatchers(HttpMethod.GET, "/js/**").permitAll()

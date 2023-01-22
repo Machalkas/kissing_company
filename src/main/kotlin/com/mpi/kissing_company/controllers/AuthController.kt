@@ -75,7 +75,7 @@ class AuthController {
         user.setsecond_name(signUpDto.getSecond_name())
         user.setUsername(signUpDto.getUsername())
         user.setPassword(bCryptPasswordEncoder?.encode(signUpDto.getPassword()))
-        val roles: Role? = signUpDto.getRole()?.let { roleRepository?.findByName(it) }
+        val roles: Role? = roleRepository?.findByName("USER")
         user.setRole(roles)
         userRepository?.save(user)
         user.setPassword("")

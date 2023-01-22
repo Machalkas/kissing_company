@@ -57,6 +57,7 @@ class SignUpDto {
         return this.role
     }
 
+
 }
 
 @PasswordMatches
